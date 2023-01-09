@@ -99,8 +99,8 @@ async def qoshish(call: CallbackQuery):
     await call.message.answer("Xayr 👋")
     await bot.send_message(2111796525,
                            f"💼<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[call.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now().strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
-    # await bot.send_message(328628941,
-    #                        f"ISHGA KELDI\nXodim:{ndt_users_dict[call.from_user.id]}\n\nVaqt: {str(datetime.datetime.now().strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
+    await bot.send_message(328628941,
+                           f"ISHGA KELDI\nXodim:{ndt_users_dict[call.from_user.id]}\n\nVaqt: {str(datetime.datetime.now().strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
     await call.message.answer("<b>Yangi ish kunini boshlash</b>",reply_markup = yoqlama1)
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates = True)
