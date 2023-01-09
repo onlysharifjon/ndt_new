@@ -6,8 +6,8 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import CallbackQuery
 
-from keyboards.default import startbut, locat
-from keyboards.inlines import yoqlama1, yoqlama2
+from default import startbut, locat
+from inlines import yoqlama1, yoqlama2
 
 ADMINSS = [5172746353, 328628941,2111796525]
 
