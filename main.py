@@ -1,4 +1,4 @@
-a= 0
+
 import datetime
 import logging
 from aiogram.dispatcher import FSMContext
