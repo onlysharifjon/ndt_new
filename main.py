@@ -1,3 +1,4 @@
+a= 0
 import datetime
 import logging
 from aiogram.dispatcher import FSMContext
@@ -73,6 +74,25 @@ async def sharif(message: types.Message):
         await message.answer("🛎 YOQLAMA 🛎", reply_markup=yoqlama1)
     else:
         await message.answer("Botda siz uchun lavozim ajratilmagan !")
+@dp.callback_query_handler(text="ketdi")
+async def qoshish(call: CallbackQuery):
+    ndt_users_dict = {1207474771: "Yo`ldoshev Bobur",
+                      # 233029021: "Karimov Anvar",
+                      49257001: "Umarjonov Ulug'bek",
+                      10414033: "Tulaboyev Zafar",
+                      2111796525: "Sabina Sobirovna",
+                      328628941: "Quranboyev Jasur",
+                      5172746353: "Sharifjon Mo`minov",
+                      856306959: 'Umarxonov Azamxon',
+                      520754113: 'Shanazarov Abdullo',
+                      524697244: 'Habibullayev Axtam',
+                      322626456: 'Сматуллаев Ербол'
+                      }
+    await call.message.answer("Xayr 👋")
+    await bot.send_message(2111796525,
+                           f"💼<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[call.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now().strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
+    await bot.send_message(328628941,
+                           f"ISHGA KELDI\nXodim:{ndt_users_dict[call.from_user.id]}\n\nVaqt: {str(datetime.datetime.now().strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
 
 
 @dp.callback_query_handler(text="keldi")
@@ -98,25 +118,6 @@ async def qoshish(call: CallbackQuery):
     await MyStates.next_step.set()
 
 
-@dp.callback_query_handler(text="ketdi")
-async def qoshish(call: CallbackQuery):
-    ndt_users_dict = {1207474771: "Yo`ldoshev Bobur",
-                      # 233029021: "Karimov Anvar",
-                      49257001: "Umarjonov Ulug'bek",
-                      10414033: "Tulaboyev Zafar",
-                      2111796525: "Sabina Sobirovna",
-                      328628941: "Quranboyev Jasur",
-                      5172746353: "Sharifjon Mo`minov",
-                      856306959: 'Umarxonov Azamxon',
-                      520754113: 'Shanazarov Abdullo',
-                      524697244: 'Habibullayev Axtam',
-                      322626456: 'Сматуллаев Ербол'
-                      }
-    await call.message.answer("Xayr 👋")
-    await bot.send_message(2111796525,
-                           f"💼<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[call.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now().strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
-    await bot.send_message(328628941,
-                           f"ISHGA KELDI\nXodim:{ndt_users_dict[call.from_user.id]}\n\nVaqt: {str(datetime.datetime.now().strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
 
 @dp.message_handler(state = MyStates.next_step, content_types = types.ContentTypes.LOCATION)
 async def ups(message: types.Message, state: FSMContext):
