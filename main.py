@@ -1,4 +1,4 @@
-a= 0
+a = 0
 import datetime
 import logging
 from aiogram.dispatcher import FSMContext
@@ -10,7 +10,7 @@ from aiogram.types import CallbackQuery
 from default import startbut, locat
 from inlines import yoqlama1, yoqlama2
 
-ADMINSS = [5172746353, 328628941,2111796525]
+ADMINSS = [5172746353, 328628941, 2111796525]
 
 next_step = ["ariza_yoz", "exit"]
 
@@ -18,6 +18,19 @@ next_step = ["ariza_yoz", "exit"]
 class MyStates(StatesGroup):
     next_step = State()
 
+
+ndt_users_dict = {1207474771: "Yo`ldoshev Bobur",
+                  # 233029021: "Karimov Anvar",
+                  49257001: "Umarjonov Ulug'bek",
+                  10414033: "Tulaboyev Zafar",
+                  2111796525: "Sabina Sobirovna",
+                  328628941: "Quranboyev Jasur",
+                  5172746353: "Sharifjon Mo`minov",
+                  856306959: 'Umarxonov Azamxon',
+                  520754113: 'Shanazarov Abdullo',
+                  524697244: 'Habibullayev Axtam',
+                  322626456: 'Сматуллаев Ербол'
+                  }
 
 # @dp.message_handler(state = NameStates.name_step, content_types = types.ContentTypes.TEXT)
 # async def ups(message: types.Message, state: FSMContext):
@@ -74,21 +87,14 @@ async def sharif(message: types.Message):
         await message.answer("🛎 YOQLAMA 🛎", reply_markup=yoqlama1)
     else:
         await message.answer("Botda siz uchun lavozim ajratilmagan !")
+
+
 @dp.callback_query_handler(text="ketdi")
 async def qoshish(call: CallbackQuery):
-    ndt_users_dict = {1207474771: "Yo`ldoshev Bobur",
-                      # 233029021: "Karimov Anvar",
-                      49257001: "Umarjonov Ulug'bek",
-                      10414033: "Tulaboyev Zafar",
-                      2111796525: "Sabina Sobirovna",
-                      328628941: "Quranboyev Jasur",
-                      5172746353: "Sharifjon Mo`minov",
-                      856306959: 'Umarxonov Azamxon',
-                      520754113: 'Shanazarov Abdullo',
-                      524697244: 'Habibullayev Axtam',
-                      322626456: 'Сматуллаев Ербол'
-                      }
-    await call.message.answer("Xayr 👋")
+
+    await call.message.answer("Xayr 👋",reply_markup=yoqlama2.ReplyKeyboardRemove())
+    await call.message.answer("Yangi ish kuniga kech qolmasdan keling 😊")
+    await call.message.answer("Yangi ish kunini Boshlash !",reply_markup=yoqlama1)
     await bot.send_message(2111796525,
                            f"💼<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[call.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now().strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
     await bot.send_message(328628941,
@@ -97,34 +103,25 @@ async def qoshish(call: CallbackQuery):
 
 @dp.callback_query_handler(text="keldi")
 async def qoshish(call: CallbackQuery):
-    ndt_users_dict = {1207474771: "Yo`ldoshev Bobur",
-                      # 233029021: "Karimov Anvar",
-                      49257001: "Umarjonov Ulug'bek",
-                      10414033: "Tulaboyev Zafar",
-                      2111796525: "Sabina Sobirovna",
-                      328628941: "Quranboyev Jasur",
-                      5172746353: "Sharifjon Mo`minov",
-                      856306959: 'Umarxonov Azamxon',
-                      520754113: 'Shanazarov Abdullo',
-                      524697244: 'Habibullayev Axtam',
-                      322626456: 'Сматуллаев Ербол'
-                      }
-    await bot.send_message(2111796525,
-                           f"💼<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[call.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now().strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
-    await bot.send_message(328628941,
-                           f"ISHGA KELDI\nXodim:{ndt_users_dict[call.from_user.id]}\n\nVaqt: {str(datetime.datetime.now().strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
-    await call.message.answer("<b>Assalomu Aleykum</b> 😊\nBugungi ishda omad yor bo`lsin.")
+    await call.message.answer("<b>Assalomu Aleykum</b> 😊\nBugungi ishda omad yor bo`lsin.",reply_markup=yoqlama1.ReplyKeyboardRemove())
     await call.message.answer("<b>Manzilni Jo`nating!</b>", reply_markup=locat)
     await MyStates.next_step.set()
 
 
-
-@dp.message_handler(state = MyStates.next_step, content_types = types.ContentTypes.LOCATION)
+@dp.message_handler(state=MyStates.next_step, content_types=types.ContentTypes.LOCATION)
 async def ups(message: types.Message, state: FSMContext):
     print("kirildi fsm ga")
-    await message.answer("Manzilingiz Jo`natildi")
-    await message.answer("<b>Yangi ish kunini boshlash</b>", reply_markup=yoqlama1)
+    await message.answer("📍Manzilingiz Jo`natildi")
+    await message.answer("<b>Ish vaqtini yakunlash!💫</b>", reply_markup=yoqlama2)
+
+    await bot.send_message(2111796525,
+                           f"💼<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now().strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
+    await message.forward(2111796525, message.message_id, message.chat.id)
+    await bot.send_message(328628941,
+                           f"💼<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now().strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
+    await message.forward(328628941, message.message_id, message.chat.id)
     await state.finish()
+
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
