@@ -1,23 +1,20 @@
-
-from aiogram.types import ReplyKeyboardMarkup,KeyboardButton
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 startbut = ReplyKeyboardMarkup(
-    keyboard = [
+    keyboard=[
         [
-            KeyboardButton(text = "Xodim🧑‍💻"),
+            KeyboardButton(text="Xodim🧑‍💻"),
         ],
 
-
     ],
-    resize_keyboard = True,
+    resize_keyboard=True,
 )
 locat = ReplyKeyboardMarkup(
-    keyboard = [
+    keyboard=[
         [
-            KeyboardButton(text = "Manzilni Tasdiqlash",request_location=True),
+            KeyboardButton(text="Manzilni Tasdiqlash", request_location=True),
         ],
 
-
     ],
-    resize_keyboard = True,
+    resize_keyboard=True,
 )
