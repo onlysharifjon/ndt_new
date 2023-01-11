@@ -1,4 +1,4 @@
-a = 0
+a = 1
 import datetime
 import logging
 from aiogram.dispatcher import FSMContext
@@ -32,18 +32,7 @@ ndt_users_dict = {1207474771: "Yo`ldoshev Bobur",
                   322626456: 'Сматуллаев Ербол'
                   }
 
-# @dp.message_handler(state = NameStates.name_step, content_types = types.ContentTypes.TEXT)
-# async def ups(message: types.Message, state: FSMContext):
-#     if message.text == "Orqaga🔙":
-#         await message.answer("Mal`lumotlarni qayta kiritishingiz mumkin")
-#         await message.answer("<b>👥Ismingizni kiriting !</b>", reply_markup = xodimlar)
-#         await NameStates.name_step.set()
-#     else:
-#         names = message.text
-#         d.append(names)
-#         await message.answer("👥Familyangizni kiriting !")
-#         await state.finish()
-#         await NameStates.familiya.set()
+
 
 API_TOKEN = '5428656747:AAEBNyZiMxyEzoze8XxrRLpbKNL0jeRfY3M'
 XODIMLAR = [5172746353, 328628941, 1207474771, 233029021, 49257001, 10414033, 2111796525, 856306959]
