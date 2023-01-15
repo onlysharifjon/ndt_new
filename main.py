@@ -29,7 +29,9 @@ ndt_users_dict = {1207474771: "Yo`ldoshev Bobur",
                   856306959: 'Umarxonov Azamxon',
                   520754113: 'Shanazarov Abdullo',
                   524697244: 'Habibullayev Axtam',
-                  322626456: 'Сматуллаев Ербол'
+                  322626456: 'Сматуллаев Ербол',
+                  1336680858: 'Maxmudova Durdona',
+                  
                   }
 
 
