@@ -1,5 +1,6 @@
 a = 1
 import datetime
+import pytz
 import logging
 from aiogram.dispatcher import FSMContext
 from aiogram import Bot, Dispatcher, types, executor
@@ -9,6 +10,7 @@ from aiogram.types import CallbackQuery
 
 from default import startbut, locat
 from inlines import yoqlama1, yoqlama2
+pytz.timezone('Uzbekistan')
 
 ADMINSS = [5172746353, 328628941, 2111796525]
 
@@ -17,6 +19,7 @@ next_step = ["ariza_yoz", "exit"]
 #clean
 class MyStates(StatesGroup):
     next_step = State()
+    ketdi_steep = State()
 
 
 ndt_users_dict = {1207474771: "Yo`ldoshev Bobur",
@@ -70,14 +73,21 @@ async def sharif(message: types.Message):
 
 @dp.callback_query_handler(text="ketdi")
 async def qoshish(call: CallbackQuery):
+    await call.message.answer("Manzilni Tasdiqlang 📍",reply_markup=locat)
+    await MyStates.ketdi_steep.set()
 
-    await call.message.answer("Xayr 👋")
-    await call.message.answer("Yangi ish kuniga kech qolmasdan keling 😊")
-    await call.message.answer("Yangi ish kunini Boshlash !",reply_markup=yoqlama1)
     await bot.send_message(2111796525,
                            f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[call.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now().strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
     await bot.send_message(328628941,
                            f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[call.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now().strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
+@dp.message_handler(state=MyStates.ketdi_steep, content_types=types.ContentTypes.LOCATION)
+async def ups(message: types.Message, state: FSMContext):
+    await message.answer("Xayr 👋")
+    await message.answer("Yangi ish kuniga kech qolmasdan keling 😊")
+    await message.answer("Yangi ish kunini Boshlash !",reply_markup=yoqlama1)
+    await state.finish()
+
+
 
 @dp.callback_query_handler(text="keldi")
 async def qoshish(call: CallbackQuery):
