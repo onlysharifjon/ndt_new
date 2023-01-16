@@ -10,7 +10,7 @@ from aiogram.types import CallbackQuery
 
 from default import startbut, locat
 from inlines import yoqlama1, yoqlama2
-pytz.timezone('Uzbekistan')
+
 
 ADMINSS = [5172746353, 328628941, 2111796525]
 
