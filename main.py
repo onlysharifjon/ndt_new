@@ -14,7 +14,7 @@ ADMINSS = [5172746353, 328628941, 2111796525]
 
 next_step = ["ariza_yoz", "exit"]
 
-
+#clean
 class MyStates(StatesGroup):
     next_step = State()
 
