@@ -12,7 +12,7 @@ startbut = ReplyKeyboardMarkup(
 locat = ReplyKeyboardMarkup(
     keyboard=[
         [
-            KeyboardButton(text="Manzilni Tasdiqlash", request_location=True),
+            KeyboardButton(text="Manzilni Tasdiqlash 📍", request_location=True),
         ],
 
     ],
