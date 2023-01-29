@@ -55,6 +55,14 @@ dp = Dispatcher(bot, storage=MemoryStorage())
 x = datetime.datetime.now()
 
 
+@dp.message_handler(commands=['ndtusers'])
+async def send_welcome11(message: types.Message):
+    a = []
+    a.append(ndt_users_dict.values())
+    for i in range(len(a)):
+         await message.answer(a[i])
+    a.clear()
+
 @dp.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
    
