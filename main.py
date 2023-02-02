@@ -63,7 +63,9 @@ async def send_welcome11(message: types.Message):
         await message.answer(a[i])
     a.clear()
 
-
+@dp.message_handler(commands=['up'])
+async def send_welcome4(message: types.Message):
+    await message.answer("ADD USER ADMIN")
 @dp.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
     global user_idtelegram
