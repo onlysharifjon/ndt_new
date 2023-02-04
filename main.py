@@ -31,12 +31,10 @@ class MyStates(StatesGroup):
 
 ndt_users_dict = {1207474771: "Yo`ldoshev Bobur",
                   233029021: "Karimov Anvar",
-                  49257001: "Umarjonov Ulug'bek",
                   10414033: "Tulaboyev Zafar",
                   2111796525: "Sabina Sobirova",
                   328628941: "Quranboyev Jasur",
                   5172746353: "Sharifjon Mo`minov",
-                  856306959: 'Umarxonov Azamxon',
                   520754113: 'Shanazarov Abdullo',
                   524697244: 'Habibullayev Axtam',
                   322626456: 'Сматуллаев Ербол',
