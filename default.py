@@ -9,10 +9,25 @@ startbut = ReplyKeyboardMarkup(
     ],
     resize_keyboard=True,
 )
-locat = ReplyKeyboardMarkup(
+ketdi_xd = ReplyKeyboardMarkup(
     keyboard=[
         [
+            KeyboardButton(text="KETDI 🏢", request_location=True),
             KeyboardButton(text="Manzilni Tasdiqlash 📍", request_location=True),
+
+
+
+        ],
+
+    ],
+    resize_keyboard=True,
+)
+keldi_xd = ReplyKeyboardMarkup(
+    keyboard=[
+        [
+            KeyboardButton(text="KELDI 🏢", request_location=True),
+            KeyboardButton(text="Manzilni Tasdiqlash 📍", request_location=True),
+
         ],
 
     ],

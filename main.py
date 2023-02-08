@@ -1,4 +1,4 @@
-a = 1
+a = 2
 import datetime
 import pytz
 import logging
@@ -8,7 +8,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import CallbackQuery
 
-from default import startbut, locat
+from default import startbut, keldi_xd,ketdi_xd
 from inlines import yoqlama1, yoqlama2
 
 from datetime import datetime
@@ -82,38 +82,36 @@ async def send_welcome(message: types.Message):
 @dp.message_handler(text="Xodim🧑‍💻")
 async def sharif(message: types.Message):
     if message.from_user.id in XODIMLAR or ADMINSS:
-        await message.answer("🛎 YOQLAMA 🛎", reply_markup=yoqlama1)
+        await message.answer("🛎 YOQLAMA 🛎", reply_markup=keldi_xd)
     else:
         await message.answer("Botda siz uchun lavozim ajratilmagan !")
 
-
-@dp.callback_query_handler(text="ketdi")
-async def qoshish(call: CallbackQuery):
-    await call.message.answer("Manzilni Tasdiqlang 📍", reply_markup=locat)
-    await MyStates.ketdi_steep.set()
-
-    await bot.send_message(2111796525,
-                           f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[call.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
-    await bot.send_message(328628941,
-                           f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[call.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
-    await bot.send_message(233029021,
-                           f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[call.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
-    #PRAEKT MANAGER ADD
 
 
 
 @dp.message_handler(state=MyStates.ketdi_steep, content_types=types.ContentTypes.LOCATION)
 async def ups(message: types.Message, state: FSMContext):
+    await message.forward(233029021, message.message_id, message.chat.id)
+    await bot.send_message(233029021,
+                           f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
+    # PRAEKT MANAGER ADD
+    await bot.send_message(328628941,
+                           f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
+    await message.forward(328628941, message.message_id, message.chat.id)
+    await message.forward(2111796525, message.message_id, message.chat.id)
+    await bot.send_message(2111796525,
+                           f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
+
     await message.answer("Xayr 👋")
     await message.answer("Yangi ish kuniga kech qolmasdan keling 😊")
-    await message.answer("Yangi ish kunini Boshlash !", reply_markup=yoqlama1)
+    await message.answer("Yangi ish kunini Boshlash !", reply_markup=keldi_xd)
     await state.finish()
 
 
-@dp.callback_query_handler(text="keldi")
-async def qoshish(call: CallbackQuery):
-    await call.message.answer("<b>Assalomu Aleykum</b> 😊\nBugungi ishda omad yor bo`lsin.")
-    await call.message.answer("<b>Manzilni Jo`nating!</b>", reply_markup=locat)
+@dp.message_handler(text="KELDI 🏢")
+async def qoshish(message: types.Message):
+    await message.answer("<b>Assalomu Aleykum</b> 😊\nBugungi ishda omad yor bo`lsin.")
+    await message.answer("<b>Manzilni Jo`nating!</b>", reply_markup=ketdi_xd)
     await MyStates.next_step.set()
 
 
@@ -121,7 +119,7 @@ async def qoshish(call: CallbackQuery):
 async def ups(message: types.Message, state: FSMContext):
     print("kirildi fsm ga")
     await message.answer("📍Manzilingiz Jo`natildi")
-    await message.answer("<b>Ish vaqtini yakunlash!💫</b>", reply_markup=yoqlama2)
+    await message.answer("<b>Ish vaqtini yakunlash!💫</b>", reply_markup=ketdi_xd)
 
     await bot.send_message(2111796525,
                            f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
@@ -140,6 +138,12 @@ async def ups(message: types.Message, state: FSMContext):
                            f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
 
     await state.finish()
+@dp.message_handler(text="KETDI 🏢")
+async def qoshish(message: types.Message):
+    await message.answer("Manzilni Tasdiqlang 📍", reply_markup=keldi_xd)
+    await MyStates.ketdi_steep.set()
+
+
 
 
 if __name__ == '__main__':
