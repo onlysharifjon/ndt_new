@@ -12,7 +12,7 @@ startbut = ReplyKeyboardMarkup(
 ketdi_xd = ReplyKeyboardMarkup(
     keyboard=[
         [
-            KeyboardButton(text="KETDI 🏢", request_location=True),
+            KeyboardButton(text="KETDI 🏢"),
             KeyboardButton(text="Manzilni Tasdiqlash 📍", request_location=True),
 
 
@@ -25,7 +25,7 @@ ketdi_xd = ReplyKeyboardMarkup(
 keldi_xd = ReplyKeyboardMarkup(
     keyboard=[
         [
-            KeyboardButton(text="KELDI 🏢", request_location=True),
+            KeyboardButton(text="KELDI 🏢"),
             KeyboardButton(text="Manzilni Tasdiqlash 📍", request_location=True),
 
         ],
