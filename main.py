@@ -27,8 +27,10 @@ next_step = ["ariza_yoz", "exit"]
 class MyStates(StatesGroup):
     next_step = State()
     ketdi_steep = State()
+    adminka = State()
+    capt = State()
 
-
+userr = []
 ndt_users_dict = {1207474771: "Yo`ldoshev Bobur",
                   233029021: "Karimov Anvar",
                   10414033: "Tulaboyev Zafar",
@@ -44,7 +46,7 @@ ndt_users_dict = {1207474771: "Yo`ldoshev Bobur",
                   }
 
 API_TOKEN = '5428656747:AAEBNyZiMxyEzoze8XxrRLpbKNL0jeRfY3M'
-XODIMLAR = [5172746353, 328628941, 1207474771, 233029021, 49257001, 10414033, 2111796525, 856306959, 520754113,
+XODIMLAR = [5172746353, 328628941, 1207474771, 233029021, 10414033, 2111796525, 520754113,
             524697244, 322626456, 1336680858]
 logging.basicConfig(level=logging.INFO)
 
@@ -61,9 +63,51 @@ async def send_welcome11(message: types.Message):
         await message.answer(a[i])
     a.clear()
 
-@dp.message_handler(commands=['up'])
-async def send_welcome4(message: types.Message):
-    await message.answer("ADD USER ADMIN")
+# @dp.message_handler(commands=['up'])
+# async def send_welcome4(message: types.Message):
+#     photo  = "C:/Users/momin/Desktop/ndt_new/photo_2023-02-09_12-42-08.jpg"
+#     await bot.send_document()
+
+# @dp.message_handler(commands=['up'],content_type = types.ContentTypes.PHOTO)
+# async def answer44(message: types.Message):
+#     photo_id = message.photo[0].file_id
+#     print(photo_id)
+#     await bot.send_photo(5172746353, photo="C:/Users/momin/Desktop/ndt_new/photo_2023-02-09_12-42-08.jpg",caption="test")
+# @dp.message_handler(commands=['up'])
+# async def send_welcome4(message: types.Message):
+#     photo  = "C:/Users/momin/Desktop/ndt_new/mm.jpg"
+#     await bot.send_photo(5172746353,photo,caption="testing")
+
+@dp.message_handler(commands=['support_admin'])
+async def send_photo(message: types.Message):
+    await message.answer("Rasmni Jo`nating!")
+    await MyStates.adminka.set()
+    # photo = "https://cdn.discordapp.com/attachments/989739840067207219/1073146412436557844/kingcs007_The_picture_of_the_employee_working_in_the_office_and_07356e0e-d41b-47a6-a3f0-e55be832cd30.png"
+    # for i in range(len(XODIMLAR)):
+    #     await bot.send_photo(XODIMLAR[i],photo,caption=f"""{}
+# """)
+@dp.message_handler(state=MyStates.adminka, content_types=types.ContentTypes.PHOTO)
+async def ups(message: types.Message, state: FSMContext):
+    photo = message.photo[-1].file_id
+    await MyStates.capt.set()
+    await message.answer("Rasm qabul qilindi!\n\nRasm uchun text kiriting!")
+    await state.finish()
+    await MyStates.capt.set()
+    print("kaptga zapros bordi")
+    @dp.message_handler(state=MyStates.capt, content_types=types.ContentTypes.TEXT)
+    async def ool(message: types.Message, state: FSMContext):
+        print("capt ga kirdi")
+        c = message.text
+        await message.answer("Rasm uchun text kiriting!")
+        print(photo)
+        print(c)
+
+        # await bot.send_photo(5172746353,photo,caption=c)
+        # await bot.send_photo(5172746353,photo[0],caption=c)
+        for i in range(len(XODIMLAR)):
+            await bot.send_photo(XODIMLAR[i],photo,caption=c)
+        await state.finish()
+
 @dp.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
     global user_idtelegram
