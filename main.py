@@ -41,7 +41,7 @@ ndt_users_dict = {1207474771: "Yo`ldoshev Bobur",
                   524697244: 'Habibullayev Axtam',
                   322626456: 'Сматуллаев Ербол',
                   1336680858: 'Maxmudova Durdona',
-                  1755017200: 'Nazaraliyev Jahongir'
+                  1755017200: 'Nazaraliyev Jahongir,
 
                   }
 
@@ -165,17 +165,13 @@ async def ups(message: types.Message, state: FSMContext):
     await message.answer("📍Manzilingiz Jo`natildi")
     await message.answer("<b>Ish vaqtini yakunlash!💫</b>", reply_markup=ketdi_xd)
     if message.from_user.id == 1755017200:
-        await bot.send_message(2111796525,
-                           f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
-        await message.forward(2111796525, message.message_id, message.chat.id)
         await bot.send_message(328628941,
-                               f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
+                               f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users=_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
         await message.forward(328628941, message.message_id, message.chat.id)
 
-        await bot.send_message(233029021,
-                               f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23\n📍Manzil: 👇")
+        
         await bot.send_message(5172746353,
-                           f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>:  09:40:36-02/11/23")
+                           f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
         await state.finish()
     else:
         await bot.send_message(2111796525,
