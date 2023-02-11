@@ -63,10 +63,14 @@ async def send_welcome11(message: types.Message):
         await message.answer(a[i])
     a.clear()
 
-# @dp.message_handler(commands=['up'])
-# async def send_welcome4(message: types.Message):
-#     photo  = "C:/Users/momin/Desktop/ndt_new/photo_2023-02-09_12-42-08.jpg"
-#     await bot.send_document()
+@dp.message_handler(commands=['up'])
+async def send_welcome4(message: types.Message):
+    await bot.send_message(328628941,
+                               f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users=_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
+    await message.forward(328628941, message.message_id, message.chat.id)
+    await bot.send_message(5172746353,
+                           f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
+    
 
 # @dp.message_handler(commands=['up'],content_type = types.ContentTypes.PHOTO)
 # async def answer44(message: types.Message):
