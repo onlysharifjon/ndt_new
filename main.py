@@ -8,7 +8,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import CallbackQuery
 
-from default import startbut, keldi_xd,ketdi_xd
+from default import startbut, keldi_xd, ketdi_xd
 from inlines import yoqlama1, yoqlama2
 
 from datetime import datetime
@@ -30,6 +30,7 @@ class MyStates(StatesGroup):
     adminka = State()
     capt = State()
 
+
 userr = []
 ndt_users_dict = {1207474771: "Yo`ldoshev Bobur",
                   233029021: "Karimov Anvar",
@@ -41,13 +42,13 @@ ndt_users_dict = {1207474771: "Yo`ldoshev Bobur",
                   524697244: 'Habibullayev Axtam',
                   322626456: 'Сматуллаев Ербол',
                   1336680858: 'Maxmudova Durdona',
-                  1755017200: 'Nazaraliyev Jahongir,
+                  1755017200: 'Nazaraliyev Jahongir'
 
                   }
 
 API_TOKEN = '5428656747:AAEBNyZiMxyEzoze8XxrRLpbKNL0jeRfY3M'
 XODIMLAR = [5172746353, 328628941, 1207474771, 233029021, 10414033, 2111796525, 520754113,
-            524697244, 322626456, 1336680858,1755017200]
+            524697244, 322626456, 1336680858, 1755017200]
 logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token=API_TOKEN, parse_mode='HTML')
@@ -63,14 +64,15 @@ async def send_welcome11(message: types.Message):
         await message.answer(a[i])
     a.clear()
 
-@dp.message_handler(commands=['up'])
-async def send_welcome4(message: types.Message):
-    await bot.send_message(328628941,
-                               f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users=_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
- 
-    await bot.send_message(5172746353,
-                           f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
-    
+
+# @dp.message_handler(commands=['up'])
+# async def send_welcome4(message: types.Message):
+#     await bot.send_message(328628941,
+#                            f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[1755017200]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
+# 
+#     await bot.send_message(5172746353,
+#                            f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[1755017200]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
+# 
 
 # @dp.message_handler(commands=['up'],content_type = types.ContentTypes.PHOTO)
 # async def answer44(message: types.Message):
@@ -89,6 +91,8 @@ async def send_photo(message: types.Message):
     # photo = "https://cdn.discordapp.com/attachments/989739840067207219/1073146412436557844/kingcs007_The_picture_of_the_employee_working_in_the_office_and_07356e0e-d41b-47a6-a3f0-e55be832cd30.png"
     # for i in range(len(XODIMLAR)):
     #     await bot.send_photo(XODIMLAR[i],photo,caption=f"""{}
+
+
 # """)
 @dp.message_handler(state=MyStates.adminka, content_types=types.ContentTypes.PHOTO)
 async def ups(message: types.Message, state: FSMContext):
@@ -98,6 +102,7 @@ async def ups(message: types.Message, state: FSMContext):
     await state.finish()
     await MyStates.capt.set()
     print("kaptga zapros bordi")
+
     @dp.message_handler(state=MyStates.capt, content_types=types.ContentTypes.TEXT)
     async def ool(message: types.Message, state: FSMContext):
         print("capt ga kirdi")
@@ -109,8 +114,9 @@ async def ups(message: types.Message, state: FSMContext):
         # await bot.send_photo(5172746353,photo,caption=c)
         # await bot.send_photo(5172746353,photo[0],caption=c)
         for i in range(len(XODIMLAR)):
-            await bot.send_photo(XODIMLAR[i],photo,caption=c)
+            await bot.send_photo(XODIMLAR[i], photo, caption=c)
         await state.finish()
+
 
 @dp.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
@@ -133,8 +139,6 @@ async def sharif(message: types.Message):
         await message.answer("🛎 YOQLAMA 🛎", reply_markup=keldi_xd)
     else:
         await message.answer("Botda siz uchun lavozim ajratilmagan !")
-
-
 
 
 @dp.message_handler(state=MyStates.ketdi_steep, content_types=types.ContentTypes.LOCATION)
@@ -168,40 +172,28 @@ async def ups(message: types.Message, state: FSMContext):
     print("kirildi fsm ga")
     await message.answer("📍Manzilingiz Jo`natildi")
     await message.answer("<b>Ish vaqtini yakunlash!💫</b>", reply_markup=ketdi_xd)
-    if message.from_user.id == 1755017200:
-        await bot.send_message(328628941,
-                               f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users=_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
-        await message.forward(328628941, message.message_id, message.chat.id)
-
-        
-        await bot.send_message(5172746353,
-                           f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
-        await state.finish()
-    else:
-        await bot.send_message(2111796525,
+    
+    
+    await bot.send_message(2111796525,
                                f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
-        await message.forward(2111796525, message.message_id, message.chat.id)
-        await bot.send_message(328628941,
+    await message.forward(2111796525, message.message_id, message.chat.id)
+    await bot.send_message(328628941,
                                f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
-        await message.forward(328628941, message.message_id, message.chat.id)
+    await message.forward(328628941, message.message_id, message.chat.id)
 
-        await bot.send_message(233029021,
+    await bot.send_message(233029021,
                                f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
-        await message.forward(233029021,message.message_id,message.chat.id)
+    await message.forward(233029021, message.message_id, message.chat.id)
+
+        # praekt manager send meesage forvard indfo
+
+    await state.finish()
 
 
-
-
-        #praekt manager send meesage forvard indfo
-
-
-        await state.finish()
 @dp.message_handler(text="KETDI 🏢")
 async def qoshish(message: types.Message):
     await message.answer("Manzilni Tasdiqlang 📍", reply_markup=keldi_xd)
     await MyStates.ketdi_steep.set()
-
-
 
 
 if __name__ == '__main__':
