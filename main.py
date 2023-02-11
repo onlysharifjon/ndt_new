@@ -67,7 +67,7 @@ async def send_welcome11(message: types.Message):
 async def send_welcome4(message: types.Message):
     await bot.send_message(328628941,
                                f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users=_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
-    await message.forward(328628941, message.message_id, message.chat.id)
+ 
     await bot.send_message(5172746353,
                            f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
     
