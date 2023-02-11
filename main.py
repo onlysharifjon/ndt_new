@@ -47,7 +47,7 @@ ndt_users_dict = {1207474771: "Yo`ldoshev Bobur",
 
 API_TOKEN = '5428656747:AAEBNyZiMxyEzoze8XxrRLpbKNL0jeRfY3M'
 XODIMLAR = [5172746353, 328628941, 1207474771, 233029021, 10414033, 2111796525, 520754113,
-            524697244, 322626456, 1336680858]
+            524697244, 322626456, 1336680858,1755017200]
 logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token=API_TOKEN, parse_mode='HTML')
@@ -164,24 +164,38 @@ async def ups(message: types.Message, state: FSMContext):
     print("kirildi fsm ga")
     await message.answer("📍Manzilingiz Jo`natildi")
     await message.answer("<b>Ish vaqtini yakunlash!💫</b>", reply_markup=ketdi_xd)
+    if message.from_user.id == 1755017200:
+        await bot.send_message(2111796525,
+                           f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
+        await message.forward(2111796525, message.message_id, message.chat.id)
+        await bot.send_message(328628941,
+                               f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
+        await message.forward(328628941, message.message_id, message.chat.id)
 
-    await bot.send_message(2111796525,
-                           f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
-    await message.forward(2111796525, message.message_id, message.chat.id)
-    await bot.send_message(328628941,
-                           f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
-    await message.forward(328628941, message.message_id, message.chat.id)
+        await bot.send_message(233029021,
+                               f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23\n📍Manzil: 👇")
+        await bot.send_message(5172746353,
+                           f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>:  09:40:36-02/11/23")
+        await state.finish()
+    else:
+        await bot.send_message(2111796525,
+                               f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
+        await message.forward(2111796525, message.message_id, message.chat.id)
+        await bot.send_message(328628941,
+                               f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
+        await message.forward(328628941, message.message_id, message.chat.id)
 
-    await bot.send_message(233029021,
-                           f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
-    await message.forward(233029021,message.message_id,message.chat.id)
-    
-    #praekt manager send meesage forvard indfo
-    
-    await bot.send_message(5172746353,
-                           f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
+        await bot.send_message(233029021,
+                               f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
+        await message.forward(233029021,message.message_id,message.chat.id)
 
-    await state.finish()
+
+
+
+        #praekt manager send meesage forvard indfo
+
+
+        await state.finish()
 @dp.message_handler(text="KETDI 🏢")
 async def qoshish(message: types.Message):
     await message.answer("Manzilni Tasdiqlang 📍", reply_markup=keldi_xd)
