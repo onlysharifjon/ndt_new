@@ -1,26 +1,18 @@
-a = 2
-import datetime
-import pytz
 import logging
 from aiogram.dispatcher import FSMContext
 from aiogram import Bot, Dispatcher, types, executor
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters.state import State, StatesGroup
-
 from default import startbut, keldi_xd, ketdi_xd
-from inlines import yoqlama1, yoqlama2
-
 from datetime import datetime
-
 import datetime
-
 import pytz
 import openpyxl
 from openpyxl import Workbook
 
+
 wb = Workbook()
 ws = wb.active
-
 # set the timezone
 tzInfo = pytz.timezone('Asia/Tashkent')
 dt = datetime.datetime.now(tz=tzInfo)
@@ -28,9 +20,7 @@ developers_column = []
 SHETS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
          'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF']
 path = "yanvar.xlsx"
-
-# set the timezone
-
+# admin ndt users
 ADMINSS = [5172746353, 328628941, 2111796525, 233029021]
 
 next_step = ["ariza_yoz", "exit"]
@@ -101,12 +91,6 @@ async def send_welcome11(message: types.Message):
 async def send_photo(message: types.Message):
     await message.answer("Rasmni Jo`nating!")
     await MyStates.adminka.set()
-    # photo = "https://cdn.discordapp.com/attachments/989739840067207219/1073146412436557844/kingcs007_The_picture_of_the_employee_working_in_the_office_and_07356e0e-d41b-47a6-a3f0-e55be832cd30.png"
-    # for i in range(len(XODIMLAR)):
-    #     await bot.send_photo(XODIMLAR[i],photo,caption=f"""{}
-
-
-# """)
 @dp.message_handler(state=MyStates.adminka, content_types=types.ContentTypes.PHOTO)
 async def ups(message: types.Message, state: FSMContext):
     photo = message.photo[-1].file_id
@@ -115,7 +99,6 @@ async def ups(message: types.Message, state: FSMContext):
     await state.finish()
     await MyStates.capt.set()
     print("kaptga zapros bordi")
-
     @dp.message_handler(state=MyStates.capt, content_types=types.ContentTypes.TEXT)
     async def ool(message: types.Message, state: FSMContext):
         print("capt ga kirdi")
@@ -124,8 +107,6 @@ async def ups(message: types.Message, state: FSMContext):
         for i in range(len(XODIMLAR)):
             await bot.send_photo(XODIMLAR[i], photo, caption=c)
         await state.finish()
-
-
 @dp.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
     global user_idtelegram
@@ -139,15 +120,12 @@ async def send_welcome(message: types.Message):
                              reply_markup=startbut)
     if xodim_id not in XODIMLAR:
         await message.answer("Siz bu botdan foydalanishga ruxsat etilmagansiz ❎")
-
-
 @dp.message_handler(text="Xodim🧑‍💻")
 async def sharif(message: types.Message):
     if message.from_user.id in XODIMLAR or ADMINSS:
         await message.answer("🛎 YOQLAMA 🛎", reply_markup=keldi_xd)
     else:
         await message.answer("Botda siz uchun lavozim ajratilmagan !")
-
 
 @dp.message_handler(state=MyStates.ketdi_steep, content_types=types.ContentTypes.LOCATION)
 async def ups(message: types.Message, state: FSMContext):
@@ -161,20 +139,15 @@ async def ups(message: types.Message, state: FSMContext):
     await message.forward(2111796525, message.message_id, message.chat.id)
     await bot.send_message(2111796525,
                            f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
-
     await message.answer("Xayr 👋")
     await message.answer("Yangi ish kuniga kech qolmasdan keling 😊")
     await message.answer("Yangi ish kunini Boshlash !", reply_markup=keldi_xd)
     await state.finish()
-
-
 @dp.message_handler(text="KELDI 🏢")
 async def qoshish(message: types.Message):
     await message.answer("<b>Assalomu Aleykum</b> 😊\nBugungi ishda omad yor bo`lsin.")
     await message.answer("<b>Manzilni Jo`nating!</b>", reply_markup=ketdi_xd)
     await MyStates.next_step.set()
-
-
 @dp.message_handler(state=MyStates.next_step, content_types=types.ContentTypes.LOCATION)
 async def ups(message: types.Message, state: FSMContext):
     print("kirildi fsm ga")
@@ -210,39 +183,26 @@ async def ups(message: types.Message, state: FSMContext):
         await bot.send_message(233029021,
                                f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
         await message.forward(233029021, message.message_id, message.chat.id)
-
         wb_obj = openpyxl.load_workbook(path)
-
         sheet_obj = wb_obj.active
-
         max_col = sheet_obj.max_column
-
         x = datetime.datetime.now()
-
         o = 0
         a = x.strftime("%d")
-
         for jump in range(10):
             for i in range(1, max_col + 1):
                 cell_obj = sheet_obj.cell(row=jump + 1, column=i)
                 developers_column.append(cell_obj.value)
-
             for k in range(32):
                 ws[f'{SHETS[k]}{jump + 1}'] = developers_column[k]
                 print(developers_column[k])
             developers_column.clear()
-
         await state.finish()
-
-
 @dp.message_handler(commands='oy_malumotlari')
 async def excel_sender(messtage: types.Message):
     ex = open('sample.xlsx', 'rb')
     await bot.send_document(messtage.from_user.id, document=ex, caption='🏢Next Developers Team')
-
     # praekt manager send meesage forvard indfo
-
-
 @dp.message_handler(text="KETDI 🏢")
 async def qoshish(message: types.Message):
     await message.answer("Manzilni Tasdiqlang 📍", reply_markup=keldi_xd)
