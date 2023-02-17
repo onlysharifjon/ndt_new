@@ -58,10 +58,10 @@ bot = Bot(token=API_TOKEN, parse_mode='HTML')
 dp = Dispatcher(bot, storage=MemoryStorage())
 x = datetime.datetime.now()
 
-
+a = []
 @dp.message_handler(commands=['ndtusers'])
 async def send_welcome11(message: types.Message):
-    a = []
+
     a.append(ndt_users_dict.values())
     for i in range(len(a)):
         await message.answer(a[i])
