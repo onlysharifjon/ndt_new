@@ -7,7 +7,7 @@ from aiogram import Bot, Dispatcher, types, executor
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters.state import State, StatesGroup
 
-from default import startbut, keldi_xd,ketdi_xd
+from default import startbut, keldi_xd, ketdi_xd
 from inlines import yoqlama1, yoqlama2
 
 from datetime import datetime
@@ -182,12 +182,11 @@ async def ups(message: types.Message, state: FSMContext):
     await message.answer("<b>Ish vaqtini yakunlash!💫</b>", reply_markup=ketdi_xd)
     if message.from_user.id == 1755017200:
         await bot.send_message(328628941,
-                               f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users=_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
+                               f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
         await message.forward(328628941, message.message_id, message.chat.id)
 
-        
         await bot.send_message(5172746353,
-                           f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
+                               f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
         await state.finish()
     else:
         await bot.send_message(2111796525,
@@ -199,15 +198,51 @@ async def ups(message: types.Message, state: FSMContext):
 
         await bot.send_message(233029021,
                                f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
-        await message.forward(233029021,message.message_id,message.chat.id)
+        await message.forward(233029021, message.message_id, message.chat.id)
 
+        await bot.send_message(2111796525,
+                               f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
+        await message.forward(2111796525, message.message_id, message.chat.id)
+        await bot.send_message(328628941,
+                               f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
+        await message.forward(328628941, message.message_id, message.chat.id)
 
+        await bot.send_message(233029021,
+                               f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
+        await message.forward(233029021, message.message_id, message.chat.id)
 
+        wb_obj = openpyxl.load_workbook(path)
 
-        #praekt manager send meesage forvard indfo
+        sheet_obj = wb_obj.active
 
+        max_col = sheet_obj.max_column
+
+        x = datetime.datetime.now()
+
+        o = 0
+        a = x.strftime("%d")
+
+        for jump in range(10):
+            for i in range(1, max_col + 1):
+                cell_obj = sheet_obj.cell(row=jump + 1, column=i)
+                developers_column.append(cell_obj.value)
+
+            for k in range(32):
+                ws[f'{SHETS[k]}{jump + 1}'] = developers_column[k]
+                print(developers_column[k])
+            developers_column.clear()
 
         await state.finish()
+
+
+@dp.message_handler(commands='oy_malumotlari')
+async def excel_sender(messtage: types.Message):
+    ex = open('sample.xlsx', 'rb')
+    await bot.send_document(messtage.from_user.id, document=ex, caption='🏢Next Developers Team')
+
+    # praekt manager send meesage forvard indfo
+
+
 @dp.message_handler(text="KETDI 🏢")
 async def qoshish(message: types.Message):
     await message.answer("Manzilni Tasdiqlang 📍", reply_markup=keldi_xd)
