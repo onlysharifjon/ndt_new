@@ -68,25 +68,6 @@ async def send_welcome11(message: types.Message):
     a.clear()
 
 
-# @dp.message_handler(commands=['up'])
-# async def send_welcome4(message: types.Message):
-#     await bot.send_message(328628941,
-#                            f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[1755017200]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
-#
-#     await bot.send_message(5172746353,
-#                            f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[1755017200]}\n\n🕰<b>Vaqt</b>:  09:40:36-02/11/23 \n📍Manzil: 👇")
-#
-
-# @dp.message_handler(commands=['up'],content_type = types.ContentTypes.PHOTO)
-# async def answer44(message: types.Message):
-#     photo_id = message.photo[0].file_id
-#     print(photo_id)
-#     await bot.send_photo(5172746353, photo="C:/Users/momin/Desktop/ndt_new/photo_2023-02-09_12-42-08.jpg",caption="test")
-# @dp.message_handler(commands=['up'])
-# async def send_welcome4(message: types.Message):
-#     photo  = "C:/Users/momin/Desktop/ndt_new/mm.jpg"
-#     await bot.send_photo(5172746353,photo,caption="testing")
-
 @dp.message_handler(commands=['support_admin'])
 async def send_photo(message: types.Message):
     await message.answer("Rasmni Jo`nating!")
