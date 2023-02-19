@@ -9,19 +9,18 @@ import datetime
 import pytz
 import openpyxl
 from openpyxl import Workbook
-
 wb = Workbook()
 ws = wb.active
+
 # set the timezone
 tzInfo = pytz.timezone('Asia/Tashkent')
 dt = datetime.datetime.now(tz=tzInfo)
 developers_column = []
 SHETS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
          'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF']
-path = "sample.xlsx"
+path = "monitoring.xlsx"
 # admin ndt users
 ADMINSS = [5172746353, 328628941, 2111796525, 233029021]
-
 next_step = ["ariza_yoz", "exit"]
 
 
@@ -51,7 +50,6 @@ API_TOKEN = '6110396068:AAFYfsw6Y0CAkyguzkLFwB-aHFKebC_1ca4'
 XODIMLAR = [5172746353, 328628941, 1207474771, 233029021, 10414033, 2111796525, 520754113,
             524697244, 322626456, 1336680858, 1755017200]
 logging.basicConfig(level=logging.INFO)
-
 bot = Bot(token=API_TOKEN, parse_mode='HTML')
 dp = Dispatcher(bot, storage=MemoryStorage())
 x = datetime.datetime.now()
@@ -128,7 +126,7 @@ async def ups(message: types.Message, state: FSMContext):
     # await message.forward(2111796525, message.message_id, message.chat.id)
     # await bot.send_message(2111796525,
     #                        f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
-    #sabinaga send qilish
+    # sabinaga send qilish
     wb_obj = openpyxl.load_workbook(path)
     sheet_obj = wb_obj.active
     max_col = sheet_obj.max_column
@@ -141,31 +139,17 @@ async def ups(message: types.Message, state: FSMContext):
             developers_column.append(cell_obj.value)
         # print(developers_column)
         if developers_column[0] == ndt_users_dict[message.from_user.id]:
-            editer = developers_column[int(a)+2]
+            editer = developers_column[int(a) + 2]
             print(developers_column)
             developers_column[int(a)] = f"""Keldi: {editer}\nKetdi: {x}"""
         for k in range(32):
             ws[f'{SHETS[k]}{jump + 1}'] = developers_column[k]
             # print(developers_column[k])
         developers_column.clear()
-    wb.save("sample.xlsx")
-
-
-
-
-
-
-
-
-
-
-
+    wb.save("monitoring.xlsx")
     await message.answer("Xayr 👋")
     await message.answer("Yangi ish kuniga kech qolmasdan keling 😊")
     await message.answer("Yangi ish kunini Boshlash !", reply_markup=keldi_xd)
-
-
-
     await state.finish()
 
 
@@ -181,9 +165,6 @@ async def ups(message: types.Message, state: FSMContext):
     print("kirildi fsm ga")
     await message.answer("📍Manzilingiz Jo`natildi")
     await message.answer("<b>Ish vaqtini yakunlash!💫</b>", reply_markup=ketdi_xd)
-
-
-
     # await bot.send_message(233029021,
     #                        f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
     # await message.forward(233029021, message.message_id, message.chat.id)
@@ -199,8 +180,6 @@ async def ups(message: types.Message, state: FSMContext):
     #                        f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
     # await message.forward(328628941, message.message_id, message.chat.id)
     # #jasur aka ga send qilish
-
-
     wb_obj = openpyxl.load_workbook(path)
     sheet_obj = wb_obj.active
     max_col = sheet_obj.max_column
@@ -213,18 +192,16 @@ async def ups(message: types.Message, state: FSMContext):
             developers_column.append(cell_obj.value)
         # print(developers_column)
         if developers_column[0] == ndt_users_dict[message.from_user.id]:
-            developers_column[int(a)+2] = x
+            developers_column[int(a) + 2] = x
         for k in range(32):
             ws[f'{SHETS[k]}{jump + 1}'] = developers_column[k]
             # print(developers_column[k])
         developers_column.clear()
-    wb.save("sample.xlsx")
+    wb.save("monitoring.xlsx")
     await state.finish()
-
-
 @dp.message_handler(commands='oy_malumotlari')
 async def excel_sender(messtage: types.Message):
-    ex = open('sample.xlsx', 'rb')
+    ex = open('monitoring.xlsx', 'rb')
     await bot.send_document(messtage.from_user.id, document=ex, caption='🏢Next Developers Team')
     # praekt manager send meesage forvard indfo
 
@@ -233,7 +210,6 @@ async def excel_sender(messtage: types.Message):
 async def qoshish(message: types.Message):
     await message.answer("Manzilni Tasdiqlang 📍", reply_markup=keldi_xd)
     await MyStates.ketdi_steep.set()
-
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
