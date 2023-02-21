@@ -10,26 +10,27 @@
 
 import datetime
 
+import asgiref.typing
 import pytz
 import openpyxl
 from openpyxl import Workbook
-
-wb = Workbook()
-ws = wb.active
-
-# set the timezone
-tzInfo = pytz.timezone('Asia/Tashkent')
-dt = datetime.datetime.now(tz=tzInfo)
-developers_column = []
-SHETS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
-         'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF']
-path = "yanvar.xlsx"
-
-wb_obj = openpyxl.load_workbook(path)
-
-sheet_obj = wb_obj.active
-
-max_col = sheet_obj.max_column
+#
+# wb = Workbook()
+# ws = wb.active
+#
+# # set the timezone
+# tzInfo = pytz.timezone('Asia/Tashkent')
+# dt = datetime.datetime.now(tz=tzInfo)
+# developers_column = []
+# SHETS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
+#          'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF']
+# path = "yanvar.xlsx"
+#
+# wb_obj = openpyxl.load_workbook(path)
+#
+# sheet_obj = wb_obj.active
+#
+# max_col = sheet_obj.max_column
 
 ndt_users_dict = {1207474771: "Yo`ldoshev Bobur",
                   233029021: "Karimov Anvar",
@@ -42,26 +43,40 @@ ndt_users_dict = {1207474771: "Yo`ldoshev Bobur",
                   322626456: 'Сматуллаев Ербол',
                   1336680858: 'Maxmudova Durdona',
                   1755017200: 'Nazaraliyev Jahongir'
-
                   }
-
-x = datetime.datetime.now()
-
-o = 0
-a = x.strftime("%d")
-
-o += 1
-for jump in range(10):
-    for i in range(1, max_col + 1):
-        cell_obj = sheet_obj.cell(row=jump+1, column=i)
-        developers_column.append(cell_obj.value)
-
-    for k in range(32):
-        ws[f'{SHETS[k]}{jump+1}'] = developers_column[k]
-        print(developers_column[k])
-    developers_column.clear()
+no_sorting = []
+def sorting_users():
+    for i in ndt_users_dict:
+        no_sorting.append(i)
+    ## sorting by buble sort by Mo`minov Sharifjon
+    no_sorting.sort()
+    for p in range(len(ndt_users_dict)):
+        print(f"{ndt_users_dict[no_sorting[p]]}")
 
 
+sorting_users()
+
+
+#
+
+
+# x = datetime.datetime.now()
+#
+# o = 0
+# a = x.strftime("%d")
+#
+# o += 1
+# for jump in range(10):
+#     for i in range(1, max_col + 1):
+#         cell_obj = sheet_obj.cell(row=jump+1, column=i)
+#         developers_column.append(cell_obj.value)
+#
+#     for k in range(32):
+#         ws[f'{SHETS[k]}{jump+1}'] = developers_column[k]
+#         print(developers_column[k])
+#     developers_column.clear()
+#
+#
 
 # print("for ishladi")
 # for i in range(1, max_col + 1):
@@ -104,7 +119,3 @@ for jump in range(10):
 #     ws[f'{SHETS[k]}{5}'] = developers_column[k]
 #     print(developers_column[k])
 # developers_column.clear()
-
-
-
-

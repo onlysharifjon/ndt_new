@@ -45,7 +45,6 @@ ndt_users_dict = {1207474771: "Yo`ldoshev Bobur",
                   1336680858: 'Maxmudova Durdona',
                   1755017200: 'Nazaraliyev Jahongir'
                   }
-
 API_TOKEN = '6110396068:AAFYfsw6Y0CAkyguzkLFwB-aHFKebC_1ca4'
 XODIMLAR = [5172746353, 328628941, 1207474771, 233029021, 10414033, 2111796525, 520754113,
             524697244, 322626456, 1336680858, 1755017200]
@@ -55,8 +54,6 @@ dp = Dispatcher(bot, storage=MemoryStorage())
 x = datetime.datetime.now()
 
 a = []
-
-
 @dp.message_handler(commands=['ndtusers'])
 async def send_welcome11(message: types.Message):
     a.append(ndt_users_dict.values())
@@ -131,7 +128,9 @@ async def ups(message: types.Message, state: FSMContext):
     sheet_obj = wb_obj.active
     max_col = sheet_obj.max_column
     x = datetime.datetime.now()
-
+    for saver in range(32):
+        ws.column_dimensions[f'{SHETS[saver]}'].width = 28
+    ws.column_dimensions[f'A'].width = 23
     a = x.strftime("%d")
     for jump in range(10):
         for i in range(1, max_col + 1):
@@ -139,9 +138,9 @@ async def ups(message: types.Message, state: FSMContext):
             developers_column.append(cell_obj.value)
         # print(developers_column)
         if developers_column[0] == ndt_users_dict[message.from_user.id]:
-            editer = developers_column[int(a) + 2]
+            editer = developers_column[int(a)]
             print(developers_column)
-            developers_column[int(a)] = f"""Keldi: {editer}\nKetdi: {x}"""
+            developers_column[int(a)] = f"""Keldi: {editer} Ketdi: {str(x.strftime("%X"))}"""
         for k in range(32):
             ws[f'{SHETS[k]}{jump + 1}'] = developers_column[k]
             # print(developers_column[k])
@@ -184,6 +183,7 @@ async def ups(message: types.Message, state: FSMContext):
     sheet_obj = wb_obj.active
     max_col = sheet_obj.max_column
     x = datetime.datetime.now()
+
     o = 0
     a = x.strftime("%d")
     for jump in range(10):
@@ -192,11 +192,14 @@ async def ups(message: types.Message, state: FSMContext):
             developers_column.append(cell_obj.value)
         # print(developers_column)
         if developers_column[0] == ndt_users_dict[message.from_user.id]:
-            developers_column[int(a) + 2] = x
+            developers_column[int(a)] = str(x.strftime("%X"))
         for k in range(32):
             ws[f'{SHETS[k]}{jump + 1}'] = developers_column[k]
             # print(developers_column[k])
         developers_column.clear()
+    for saver in range(32):
+        ws.column_dimensions[f'{SHETS[saver]}'].width = 28
+    ws.column_dimensions[f'A'].width = 23
     wb.save("monitoring.xlsx")
     await state.finish()
 @dp.message_handler(commands='oy_malumotlari')
