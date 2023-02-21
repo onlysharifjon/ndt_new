@@ -33,10 +33,3 @@ keldi_xd = ReplyKeyboardMarkup(
     ],
     resize_keyboard=True,
 )
-import datetime
-import pytz
-
-#set the timezone
-tzInfo = pytz.timezone('Asia/Tashkent')
-dt = datetime.datetime.now(tz=tzInfo)
-print(dt)

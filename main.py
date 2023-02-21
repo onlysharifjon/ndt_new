@@ -2,9 +2,11 @@ import logging
 from aiogram.dispatcher import FSMContext
 from aiogram import Bot, Dispatcher, types, executor
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from aiogram.types import CallbackQuery
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from default import startbut, keldi_xd, ketdi_xd
 from datetime import datetime
+from inlines import adminka
 import datetime
 import pytz
 import openpyxl
@@ -61,7 +63,23 @@ async def send_welcome11(message: types.Message):
         await message.answer(a[i])
     a.clear()
 
+@dp.message_handler(commands=['admin'])
+async def send_welcome41(message: types.Message):
+    await message.delete()
+    await message.answer("Menu Admin",reply_markup=adminka)
 
+    @dp.callback_query_handler(text=["month"])
+    async def answer1(call: CallbackQuery):
+        await call.message.delete()
+
+        ex = open('monitoring.xlsx', 'rb')
+        await call.bot.send_document(message.from_user.id, document=ex, caption='🏢Next Developers Team')
+
+
+@dp.callback_query_handler(text=["week"])
+async def answer2(call: CallbackQuery):
+    await call.message.delete()
+    await call.message.answer("testing week")
 @dp.message_handler(commands=['support_admin'])
 async def send_photo(message: types.Message):
     await message.answer("Rasmni Jo`nating!")
@@ -112,17 +130,17 @@ async def sharif(message: types.Message):
 
 @dp.message_handler(state=MyStates.ketdi_steep, content_types=types.ContentTypes.LOCATION)
 async def ups(message: types.Message, state: FSMContext):
-    # await message.forward(233029021, message.message_id, message.chat.id)
-    # await bot.send_message(233029021,
-    #                        f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
-    # #anvar akaga send qilish
-    # await bot.send_message(328628941,
-    #                        f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
-    # await message.forward(328628941, message.message_id, message.chat.id)
-    # #jasur akaga send qilish
-    # await message.forward(2111796525, message.message_id, message.chat.id)
-    # await bot.send_message(2111796525,
-    #                        f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
+    await message.forward(233029021, message.message_id, message.chat.id)
+    await bot.send_message(233029021,
+                           f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
+    #anvar akaga send qilish
+    await bot.send_message(328628941,
+                           f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
+    await message.forward(328628941, message.message_id, message.chat.id)
+    #jasur akaga send qilish
+    await message.forward(2111796525, message.message_id, message.chat.id)
+    await bot.send_message(2111796525,
+                           f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
     # sabinaga send qilish
     wb_obj = openpyxl.load_workbook(path)
     sheet_obj = wb_obj.active
@@ -213,6 +231,27 @@ async def excel_sender(messtage: types.Message):
 async def qoshish(message: types.Message):
     await message.answer("Manzilni Tasdiqlang 📍", reply_markup=keldi_xd)
     await MyStates.ketdi_steep.set()
+"""------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+"""
+
+
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
