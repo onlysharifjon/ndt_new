@@ -9,6 +9,15 @@ startbut = ReplyKeyboardMarkup(
     ],
     resize_keyboard=True,
 )
+all_info = ReplyKeyboardMarkup(
+    keyboard=[
+        [
+            KeyboardButton(text="📃Barcha xodimlar monitoringi (7 kun)"),
+        ],
+
+    ],
+    resize_keyboard=True,
+)
 ketdi_xd = ReplyKeyboardMarkup(
     keyboard=[
         [

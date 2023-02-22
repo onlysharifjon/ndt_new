@@ -4,13 +4,14 @@ from aiogram import Bot, Dispatcher, types, executor
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.types import CallbackQuery
 from aiogram.dispatcher.filters.state import State, StatesGroup
-from default import startbut, keldi_xd, ketdi_xd
+from default import startbut, keldi_xd, ketdi_xd, all_info
 from datetime import datetime
-from inlines import adminka
+from inlines import adminka, ndt_usertable
 import datetime
 import pytz
 import openpyxl
 from openpyxl import Workbook
+
 wb = Workbook()
 ws = wb.active
 
@@ -23,7 +24,6 @@ SHETS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', '
 path = "monitoring.xlsx"
 # admin ndt users
 ADMINSS = [5172746353, 328628941, 2111796525, 233029021]
-next_step = ["ariza_yoz", "exit"]
 
 
 # clean
@@ -56,6 +56,8 @@ dp = Dispatcher(bot, storage=MemoryStorage())
 x = datetime.datetime.now()
 
 a = []
+
+
 @dp.message_handler(commands=['ndtusers'])
 async def send_welcome11(message: types.Message):
     a.append(ndt_users_dict.values())
@@ -63,10 +65,14 @@ async def send_welcome11(message: types.Message):
         await message.answer(a[i])
     a.clear()
 
+
+"""-----------------------------------------------------------------------adminka-----------------------------------------------------------------"""
+
+
 @dp.message_handler(commands=['admin'])
 async def send_welcome41(message: types.Message):
     await message.delete()
-    await message.answer("Menu Admin",reply_markup=adminka)
+    await message.answer("Menu Admin", reply_markup=adminka)
 
     @dp.callback_query_handler(text=["month"])
     async def answer1(call: CallbackQuery):
@@ -75,11 +81,113 @@ async def send_welcome41(message: types.Message):
         ex = open('monitoring.xlsx', 'rb')
         await call.bot.send_document(message.from_user.id, document=ex, caption='🏢Next Developers Team')
 
+    @dp.callback_query_handler(text=["week"])
+    async def answer2(call: CallbackQuery):
+        await call.message.delete()
 
-@dp.callback_query_handler(text=["week"])
+        await call.message.answer("<b>🧑‍💻Xodimlar ro'yxati</b>", reply_markup=ndt_usertable)
+        await message.answer("⬇️Barcha Xodimlar Ma`lumotlarini ko`rish⬇️", reply_markup=all_info)
+
+
+@dp.message_handler(text="📃Barcha xodimlar monitoringi (7 kun)")
+async def infos_all(message: types.Message):
+    wb_obj = openpyxl.load_workbook(path)
+    sheet_obj = wb_obj.active
+    max_col = sheet_obj.max_column
+
+    for saver in range(32):
+        ws.column_dimensions[f'{SHETS[saver]}'].width = 28
+    ws.column_dimensions[f'A'].width = 23
+    a = x.strftime("%d")
+    for jump in range(8):
+        for i in range(1, max_col + 1):
+            cell_obj = sheet_obj.cell(row=jump + 2, column=i)
+            developers_column.append(cell_obj.value)
+        # print(developers_column)
+        if int(a) >= 7:
+            monit_list = []
+            for o in range(7):
+                # print(int(a) - 6 + o)
+                if developers_column[int(a) - 6 + o] != '.':
+                    monit_list.append(developers_column[int(a) - 6 + o])
+                else:
+                    monit_list.append("❌")
+            await message.answer(f"""
+<b>Xodim: {developers_column[0]} </b>
+
+<b>{int(a) - 6}:</b> {monit_list[0]}
+
+<b>{int(a) - 5}:</b>  {monit_list[1]}
+
+<b>{int(a) - 4}:</b> {monit_list[2]}
+
+<b>{int(a) - 3}:</b> {monit_list[3]}
+
+<b>{int(a) - 2}:</b> {monit_list[4]}
+
+<b>{int(a) - 1}:</b> {monit_list[5]}
+
+<b>{int(a)}:</b> {monit_list[6]}
+""")
+            monit_list.clear()
+            developers_column.clear()
+        else:
+            await message.answer("⏳7 kun ma`lumoti mavjud emas\n\n🕥Bugun Sana")
+
+@dp.callback_query_handler(text=["sharif"])
 async def answer2(call: CallbackQuery):
-    await call.message.delete()
-    await call.message.answer("testing week")
+    wb_obj = openpyxl.load_workbook(path)
+    sheet_obj = wb_obj.active
+    max_col = sheet_obj.max_column
+    x = datetime.datetime.now()
+
+    o = 0
+    a = x.strftime("%d")
+    text = ""
+    for jump in range(9):
+        for i in range(1, max_col + 1):
+            cell_obj = sheet_obj.cell(row=jump + 1, column=i)
+            developers_column.append(cell_obj.value)
+        # print("salom")
+        print(developers_column)
+        if developers_column[0] == ndt_users_dict[5172746353]:
+            if int(a) >= 7:
+                monit_list = []
+                for o in range(7):
+                    # print(int(a) - 6 + o)
+                    if developers_column[int(a) - 6 + o] != '.':
+                        monit_list.append(developers_column[int(a) - 6 + o])
+                    else:
+                        monit_list.append("❌")
+                await call.message.answer(f"""
+            <b>Xodim: {developers_column[0]} </b>
+
+            <b>{int(a) - 6}:</b> {monit_list[0]}
+
+            <b>{int(a) - 5}:</b>  {monit_list[1]}
+
+            <b>{int(a) - 4}:</b> {monit_list[2]}
+
+            <b>{int(a) - 3}:</b> {monit_list[3]}
+
+            <b>{int(a) - 2}:</b> {monit_list[4]}
+
+            <b>{int(a) - 1}:</b> {monit_list[5]}
+
+            <b>{int(a)}:</b> {monit_list[6]}
+            """)
+                monit_list.clear()
+
+            else:
+                await call.message.answer("⏳7 kun ma`lumoti mavjud emas\n\n🕥Bugun Sana")
+        developers_column.clear()
+        # print(f"uz {text}")
+
+
+
+"""-----------------------------------------------------------------------adminka-----------------------------------------------------------------"""
+
+
 @dp.message_handler(commands=['support_admin'])
 async def send_photo(message: types.Message):
     await message.answer("Rasmni Jo`nating!")
@@ -130,17 +238,17 @@ async def sharif(message: types.Message):
 
 @dp.message_handler(state=MyStates.ketdi_steep, content_types=types.ContentTypes.LOCATION)
 async def ups(message: types.Message, state: FSMContext):
-    await message.forward(233029021, message.message_id, message.chat.id)
-    await bot.send_message(233029021,
-                           f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
-    #anvar akaga send qilish
-    await bot.send_message(328628941,
-                           f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
-    await message.forward(328628941, message.message_id, message.chat.id)
-    #jasur akaga send qilish
-    await message.forward(2111796525, message.message_id, message.chat.id)
-    await bot.send_message(2111796525,
-                           f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
+    # await message.forward(233029021, message.message_id, message.chat.id)
+    # await bot.send_message(233029021,
+    #                        f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
+    # # anvar akaga send qilish
+    # await bot.send_message(328628941,
+    #                        f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
+    # await message.forward(328628941, message.message_id, message.chat.id)
+    # # jasur akaga send qilish
+    # await message.forward(2111796525, message.message_id, message.chat.id)
+    # await bot.send_message(2111796525,
+    #                        f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
     # sabinaga send qilish
     wb_obj = openpyxl.load_workbook(path)
     sheet_obj = wb_obj.active
@@ -150,7 +258,7 @@ async def ups(message: types.Message, state: FSMContext):
         ws.column_dimensions[f'{SHETS[saver]}'].width = 28
     ws.column_dimensions[f'A'].width = 23
     a = x.strftime("%d")
-    for jump in range(10):
+    for jump in range(9):
         for i in range(1, max_col + 1):
             cell_obj = sheet_obj.cell(row=jump + 1, column=i)
             developers_column.append(cell_obj.value)
@@ -204,7 +312,7 @@ async def ups(message: types.Message, state: FSMContext):
 
     o = 0
     a = x.strftime("%d")
-    for jump in range(10):
+    for jump in range(9):
         for i in range(1, max_col + 1):
             cell_obj = sheet_obj.cell(row=jump + 1, column=i)
             developers_column.append(cell_obj.value)
@@ -220,6 +328,8 @@ async def ups(message: types.Message, state: FSMContext):
     ws.column_dimensions[f'A'].width = 23
     wb.save("monitoring.xlsx")
     await state.finish()
+
+
 @dp.message_handler(commands='oy_malumotlari')
 async def excel_sender(messtage: types.Message):
     ex = open('monitoring.xlsx', 'rb')
@@ -231,26 +341,26 @@ async def excel_sender(messtage: types.Message):
 async def qoshish(message: types.Message):
     await message.answer("Manzilni Tasdiqlang 📍", reply_markup=keldi_xd)
     await MyStates.ketdi_steep.set()
-"""------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-"""
-
-
-
-
-
-
-
-
+    #         # print(developers_column)
+    #         # print("developer column 0")
+    #         text+=str(f'Xodim: {ndt_users_dict[5172746353]}\n')
+    #         for month in range(len(developers_column)-2):
+    #             if len(str(developers_column[month]))<2:
+    #                 text += f"<b>{month + 1}: </b>❌\n"
+    #                 print(f'{month}----------------------------------------------')
+    #             elif developers_column[month] != '.':
+    #                 # print(developers_column[month])
+    #                 text+=f"<b>{month+1}:</b> {developers_column[month+2]}\n"
+    #                 # print(developers_column[month+2])
+    #
+    #             else:
+    #                 print(f'{month}-----------')
+    #                 text+=f"<b>{month+1}: </b>❌\n"
+    #     developers_column.clear()
+    # # await call.message.delete()
+    # # print("Start text")
+    # # print(text)
+    # await call.message.answer(f"{text}")
 
 
 if __name__ == '__main__':
