@@ -21,16 +21,20 @@ tzInfo = pytz.timezone('Asia/Tashkent')
 dt = datetime.datetime.now(tz=tzInfo)
 developers_column = []
 SHETS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-         'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF']
+         'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF','AG']
 path = "monitoring.xlsx"
 # admin ndt users
-ADMINSS = [5172746353, 328628941, 2111796525, 233029021]
+ADMINSS = [5172746353, 328628941, 233029021]
+
+
 # clean
 class MyStates(StatesGroup):
     next_step = State()
     ketdi_steep = State()
     adminka = State()
     capt = State()
+
+
 userr = []
 ndt_users_dict = {1207474771: "Yo‘ldoshev Bobur",
                   233029021: "Karimov Anvar",
@@ -44,7 +48,12 @@ ndt_users_dict = {1207474771: "Yo‘ldoshev Bobur",
                   1336680858: 'Maxmudova Durdona',
                   1755017200: 'Nazaraliyev Jahongir',
                   }
+
+
 API_TOKEN = '6110396068:AAEcSVjeo_o3xbwDncJmFdqWqgb315i9r4w'
+
+
+
 XODIMLAR = [5172746353, 328628941, 1207474771, 233029021, 10414033, 2111796525, 520754113,
             524697244, 322626456, 1336680858, 1755017200]
 logging.basicConfig(level=logging.INFO)
@@ -54,6 +63,7 @@ x = datetime.datetime.now()
 a = ['Habibullayev Axtam',
      "Quranboyev Jasur",
      "Sabina Sobirovna",
+     'Maxmudova Durdona',
      "Shanazarov Abdullo,",
      "Sharifjon Mo‘minov",
      "Smatullayev Erbol",
@@ -61,9 +71,42 @@ a = ['Habibullayev Axtam',
      "Yo‘ldoshev Bobur",
      ]
 
+@dp.message_handler(commands='clearmonth')
+async def clear_data(message: types.Message):
+    wb_obj = openpyxl.load_workbook(path)
+    sheet_obj = wb_obj.active
+    max_col = sheet_obj.max_column
+    x = datetime.datetime.now()
+    for saver in range(33):
+        ws.column_dimensions[f'{SHETS[saver]}'].width = 28
+    ws.column_dimensions[f'A'].width = 23
+    a = x.strftime("%d")
+    for jump in range(11):
+        for i in range(1, max_col + 1):
+            cell_obj = sheet_obj.cell(row=jump + 1, column=i)
+            developers_column.append(cell_obj.value)
+        # print(developers_column)
+        print(developers_column)
+        for k in range(33):
+            if jump  == 1:
+                ws[f'{SHETS[k]}{jump + 1}'] = developers_column[k]
+            elif k<=2 and jump != 1:
+                ws[f'{SHETS[k]}{jump + 1}'] = developers_column[k]
+            else:
+                ws[f'{SHETS[k]}{jump + 1}'] = "."
+
+            # print(developers_column[k])
+        developers_column.clear()
+    for d in range(31):
+        ws[f'{SHETS[d+2]}{1}'] = d + 1
+
+    wb.save("testing.xlsx")
+    await message.answer("Ma`lumotlar tozalandi")
+
 @dp.message_handler(commands=['ndtusers'])
 async def send_welcome11(message: types.Message):
-    text = f'🧑‍💻 XODIMLAR 🧑‍💻\n\n🧑‍💻{a[0]}\n\n🧑‍💻{a[1]}\n\n{a[2]}\n\n{a[3]}\n\n{a[4]}\n\n{a[5]}\n\n{a[6]}\n\n{a[7]}'
+    text = f'🧑‍💻 XODIMLAR 🧑‍💻\n\n🧑‍💻{a[0]}\n\n🧑‍💻{a[1]}\n\n👩🏼‍💻{a[2]}\n\n👩🏼‍💻{a[3]}\n\n🧑‍💻{a[4]}\n\n🧑‍💻{a[5]}\n\n🧑‍💻{a[6]}\n\n🧑‍💻{a[7]}\n\n🧑‍💻{a[8]}'
+    await message.answer(text)
     a.clear()
 
 
@@ -72,8 +115,12 @@ async def send_welcome11(message: types.Message):
 
 @dp.message_handler(commands=['admin'])
 async def send_welcome41(message: types.Message):
-    await message.delete()
-    await message.answer("Menu Admin", reply_markup=adminka)
+    if message.from_user.id in ADMINSS:
+        await message.delete()
+        await message.answer("Menu Admin", reply_markup=adminka)
+    else:
+        await message.answer("Sizda admin xuquqi mavjud emas")
+
     @dp.callback_query_handler(text=["month"])
     async def answer1(call: CallbackQuery):
         await call.message.delete()
@@ -92,7 +139,7 @@ async def infos_all(message: types.Message):
     wb_obj = openpyxl.load_workbook(path)
     sheet_obj = wb_obj.active
     max_col = sheet_obj.max_column
-    for saver in range(32):
+    for saver in range(33):
         ws.column_dimensions[f'{SHETS[saver]}'].width = 28
     ws.column_dimensions[f'A'].width = 23
     a = x.strftime("%d")
@@ -131,6 +178,7 @@ async def infos_all(message: types.Message):
         else:
             await message.answer("⏳7 kun ma`lumoti mavjud emas\n\n🕥Bugun Sana")
         # print(f"uz {text}")
+
 
 @dp.callback_query_handler(text=["sharif"])
 async def answer2(call: CallbackQuery):
@@ -231,6 +279,8 @@ async def answer2(call: CallbackQuery):
             else:
                 await call.message.answer("⏳7 kun ma`lumoti mavjud emas\n\n🕥Bugun Sana")
         developers_column.clear()
+
+
 @dp.callback_query_handler(text=["jasur"])
 async def answer2(call: CallbackQuery):
     wb_obj = openpyxl.load_workbook(path)
@@ -278,6 +328,8 @@ async def answer2(call: CallbackQuery):
             else:
                 await call.message.answer("⏳7 kun ma`lumoti mavjud emas\n\n🕥Bugun Sana")
         developers_column.clear()
+
+
 @dp.callback_query_handler(text=["zafar"])
 async def answer2(call: CallbackQuery):
     wb_obj = openpyxl.load_workbook(path)
@@ -325,6 +377,8 @@ async def answer2(call: CallbackQuery):
             else:
                 await call.message.answer("⏳7 kun ma`lumoti mavjud emas\n\n🕥Bugun Sana")
         developers_column.clear()
+
+
 @dp.callback_query_handler(text=["bobur"])
 async def answer2(call: CallbackQuery):
     wb_obj = openpyxl.load_workbook(path)
@@ -371,6 +425,8 @@ async def answer2(call: CallbackQuery):
             else:
                 await call.message.answer("⏳7 kun ma`lumoti mavjud emas\n\n🕥Bugun Sana")
         developers_column.clear()
+
+
 @dp.callback_query_handler(text=["abdulla"])
 async def answer2(call: CallbackQuery):
     wb_obj = openpyxl.load_workbook(path)
@@ -418,6 +474,8 @@ async def answer2(call: CallbackQuery):
             else:
                 await call.message.answer("⏳7 kun ma`lumoti mavjud emas\n\n🕥Bugun Sana")
         developers_column.clear()
+
+
 @dp.callback_query_handler(text=["durdona"])
 async def answer2(call: CallbackQuery):
     wb_obj = openpyxl.load_workbook(path)
@@ -686,7 +744,7 @@ async def ups(message: types.Message, state: FSMContext):
     sheet_obj = wb_obj.active
     max_col = sheet_obj.max_column
     x = datetime.datetime.now()
-    for saver in range(32):
+    for saver in range(33):
         ws.column_dimensions[f'{SHETS[saver]}'].width = 28
     ws.column_dimensions[f'A'].width = 23
     a = x.strftime("%d")
@@ -699,7 +757,7 @@ async def ups(message: types.Message, state: FSMContext):
             editer = developers_column[int(a)]
             # print(developers_column)
             developers_column[int(a)] = f"""Keldi: {editer} Ketdi: {str(x.strftime("%X"))}"""
-        for k in range(32):
+        for k in range(33):
             ws[f'{SHETS[k]}{jump + 1}'] = developers_column[k]
             # print(developers_column[k])
         developers_column.clear()
@@ -708,6 +766,7 @@ async def ups(message: types.Message, state: FSMContext):
     await message.answer("Yangi ish kuniga kech qolmasdan keling 😊")
     await message.answer("Yangi ish kunini Boshlash !", reply_markup=keldi_xd)
     await state.finish()
+
 
 @dp.message_handler(text="KELDI 🏢")
 async def qoshish(message: types.Message):
@@ -750,25 +809,29 @@ async def ups(message: types.Message, state: FSMContext):
         # print(developers_column)
         if developers_column[0] == ndt_users_dict[message.from_user.id]:
             developers_column[int(a)] = str(x.strftime("%X"))
-        for k in range(32):
+        for k in range(33):
             ws[f'{SHETS[k]}{jump + 1}'] = developers_column[k]
             # print(developers_column[k])
         developers_column.clear()
-    for saver in range(32):
+    for saver in range(33):
         ws.column_dimensions[f'{SHETS[saver]}'].width = 28
     ws.column_dimensions[f'A'].width = 23
     wb.save("monitoring.xlsx")
     await state.finish()
+
 
 @dp.message_handler(commands='oy_malumotlari')
 async def excel_sender(messtage: types.Message):
     ex = open('monitoring.xlsx', 'rb')
     await bot.send_document(messtage.from_user.id, document=ex, caption=corporation)
     # praekt manager send meesage forvard indfo
+
+
 @dp.message_handler(text="KETDI 🏢")
 async def qoshish(message: types.Message):
     await message.answer("Manzilni Tasdiqlang 📍", reply_markup=keldi_xd)
     await MyStates.ketdi_steep.set()
+
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
