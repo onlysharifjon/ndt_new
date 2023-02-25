@@ -9,9 +9,9 @@ ndt_users_dict = {1207474771: "Yo`ldoshev Bobur",
                   5172746353: "Mo`minov Sharifjon",
                   520754113: 'Shanazarov Abdullo',
                   524697244: 'Habibullayev Axtam',
-                  322626456: 'Сматуллаев Ербол',
+                  322626456: 'Smatullayev Erbol',
+                  1755017200: 'Nazaraliyev Jahongir',
                   1336680858: 'Maxmudova Durdona',
-                  1755017200: 'Nazaraliyev Jahongir'
                   }
 ndt_usertable = InlineKeyboardMarkup(
     inline_keyboard=[
@@ -21,15 +21,11 @@ ndt_usertable = InlineKeyboardMarkup(
         ],
         [
 
-            InlineKeyboardButton(text=f"{ndt_users_dict[233029021]}", callback_data="zafar"),
+            InlineKeyboardButton(text=f"{ndt_users_dict[10414033]}", callback_data="zafar"),
         ],
         [
 
-            InlineKeyboardButton(text=f"{ndt_users_dict[10414033]}", callback_data="sabina"),
-        ],
-        [
-
-            InlineKeyboardButton(text=f"{ndt_users_dict[2111796525]}", callback_data="jasur"),
+            InlineKeyboardButton(text=f"{ndt_users_dict[2111796525]}", callback_data="sabina"),
         ],
         [
 
@@ -37,11 +33,11 @@ ndt_usertable = InlineKeyboardMarkup(
         ],
         [
 
-            InlineKeyboardButton(text=f"{ndt_users_dict[520754113]}", callback_data="abdullo"),
+            InlineKeyboardButton(text=f"{ndt_users_dict[520754113]}", callback_data="abdulla"),
         ],
         [
 
-            InlineKeyboardButton(text=f"{ndt_users_dict[524697244]}", callback_data="axtam"),
+            InlineKeyboardButton(text=f"{ndt_users_dict[524697244]}", callback_data='axtam'),
         ],
         [
 
@@ -53,6 +49,9 @@ ndt_usertable = InlineKeyboardMarkup(
         ],
         [
             InlineKeyboardButton(text=f"{ndt_users_dict[1755017200]}", callback_data="jahongir")
+        ],
+[
+            InlineKeyboardButton(text=f"{ndt_users_dict[328628941]}", callback_data="jasur")
         ],
 
     ],
