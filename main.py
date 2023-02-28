@@ -136,50 +136,52 @@ async def send_welcome41(message: types.Message):
 
 @dp.message_handler(text="📃Barcha xodimlar monitoringi (7 kun)")
 async def infos_all(message: types.Message):
-    wb_obj = openpyxl.load_workbook(path)
-    sheet_obj = wb_obj.active
-    max_col = sheet_obj.max_column
-    for saver in range(33):
-        ws.column_dimensions[f'{SHETS[saver]}'].width = 28
-    ws.column_dimensions[f'A'].width = 23
-    a = x.strftime("%d")
-    for jump in range(8):
-        for i in range(1, max_col + 1):
-            cell_obj = sheet_obj.cell(row=jump + 2, column=i)
-            developers_column.append(cell_obj.value)
-        # print(developers_column)
-        if int(a) >= 7:
-            monit_list = []
-            for o in range(7):
-                # print(int(a) - 6 + o)
-                if developers_column[int(a) - 6 + o] != '.':
-                    monit_list.append(developers_column[int(a) - 6 + o])
-                else:
-                    monit_list.append("❌")
-            await message.answer(f"""
-<b>Xodim: {developers_column[0]} </b>
+    if message.from_user.id in ADMINSS:
+        wb_obj = openpyxl.load_workbook(path)
+        sheet_obj = wb_obj.active
+        max_col = sheet_obj.max_column
+        for saver in range(33):
+            ws.column_dimensions[f'{SHETS[saver]}'].width = 28
+        ws.column_dimensions[f'A'].width = 23
+        a = x.strftime("%d")
+        for jump in range(8):
+            for i in range(1, max_col + 1):
+                cell_obj = sheet_obj.cell(row=jump + 2, column=i)
+                developers_column.append(cell_obj.value)
+            # print(developers_column)
+            if int(a) >= 7:
+                monit_list = []
+                for o in range(7):
+                    # print(int(a) - 6 + o)
+                    if developers_column[int(a) - 6 + o] != '.':
+                        monit_list.append(developers_column[int(a) - 6 + o])
+                    else:
+                        monit_list.append("❌")
+                await message.answer(f"""
+    <b>Xodim: {developers_column[0]} </b>
+    
+    <b>{int(a) - 6}:</b> {monit_list[0]}
+    
+    <b>{int(a) - 5}:</b>  {monit_list[1]}
+    
+    <b>{int(a) - 4}:</b> {monit_list[2]}
+    
+    <b>{int(a) - 3}:</b> {monit_list[3]}
+    
+    <b>{int(a) - 2}:</b> {monit_list[4]}
+    
+    <b>{int(a) - 1}:</b> {monit_list[5]}
+    
+    <b>{int(a)}:</b> {monit_list[6]}
+    """)
+                monit_list.clear()
+                developers_column.clear()
+            else:
+                await message.answer("⏳7 kun ma`lumoti mavjud emas\n\n🕥Bugun Sana")
+            # print(f"uz {text}")
 
-<b>{int(a) - 6}:</b> {monit_list[0]}
-
-<b>{int(a) - 5}:</b>  {monit_list[1]}
-
-<b>{int(a) - 4}:</b> {monit_list[2]}
-
-<b>{int(a) - 3}:</b> {monit_list[3]}
-
-<b>{int(a) - 2}:</b> {monit_list[4]}
-
-<b>{int(a) - 1}:</b> {monit_list[5]}
-
-<b>{int(a)}:</b> {monit_list[6]}
-""")
-            monit_list.clear()
-            developers_column.clear()
-        else:
-            await message.answer("⏳7 kun ma`lumoti mavjud emas\n\n🕥Bugun Sana")
-        # print(f"uz {text}")
-
-
+    else:
+        await message.answer("Sizda admin xuquqi mavjud emas!")
 @dp.callback_query_handler(text=["sharif"])
 async def answer2(call: CallbackQuery):
     wb_obj = openpyxl.load_workbook(path)
