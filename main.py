@@ -730,18 +730,18 @@ async def sharif(message: types.Message):
 
 @dp.message_handler(state=MyStates.ketdi_steep, content_types=types.ContentTypes.LOCATION)
 async def ups(message: types.Message, state: FSMContext):
-    # await message.forward(233029021, message.message_id, message.chat.id)
-    # await bot.send_message(233029021,
-    #                        f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
-    # # anvar akaga send qilish
-    # await bot.send_message(328628941,
-    #                        f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
-    # await message.forward(328628941, message.message_id, message.chat.id)
-    # # jasur akaga send qilish
-    # await message.forward(2111796525, message.message_id, message.chat.id)
-    # await bot.send_message(2111796525,
-    #                        f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
-    # sabinaga send qilish
+    await message.forward(233029021, message.message_id, message.chat.id)
+    await bot.send_message(233029021,
+                           f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
+    # anvar akaga send qilish
+    await bot.send_message(328628941,
+                           f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
+    await message.forward(328628941, message.message_id, message.chat.id)
+    # jasur akaga send qilish
+    await message.forward(2111796525, message.message_id, message.chat.id)
+    await bot.send_message(2111796525,
+                           f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
+#     sabinaga send qilish
     wb_obj = openpyxl.load_workbook(path)
     sheet_obj = wb_obj.active
     max_col = sheet_obj.max_column
@@ -782,21 +782,21 @@ async def ups(message: types.Message, state: FSMContext):
     print("kirildi fsm ga")
     await message.answer("📍Manzilingiz Jo`natildi")
     await message.answer("<b>Ish vaqtini yakunlash!💫</b>", reply_markup=ketdi_xd)
-    # await bot.send_message(233029021,
-    #                        f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
-    # await message.forward(233029021, message.message_id, message.chat.id)
-    # #anvar akaga send qilish
-    #
-    #
-    # await bot.send_message(2111796525,
-    #                        f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
-    # await message.forward(2111796525, message.message_id, message.chat.id)
-    # #sabina opaga send qilish
-    #
-    # await bot.send_message(328628941,
-    #                        f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
-    # await message.forward(328628941, message.message_id, message.chat.id)
-    # #jasur aka ga send qilish
+    await bot.send_message(233029021,
+                           f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
+    await message.forward(233029021, message.message_id, message.chat.id)
+    #anvar akaga send qilish
+    
+    
+    await bot.send_message(2111796525,
+                           f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
+    await message.forward(2111796525, message.message_id, message.chat.id)
+    #sabina opaga send qilish
+    
+    await bot.send_message(328628941,
+                           f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
+    await message.forward(328628941, message.message_id, message.chat.id)
+    #jasur aka ga send qilish
     wb_obj = openpyxl.load_workbook(path)
     sheet_obj = wb_obj.active
     max_col = sheet_obj.max_column
