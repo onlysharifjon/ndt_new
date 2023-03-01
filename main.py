@@ -33,6 +33,9 @@ class MyStates(StatesGroup):
     ketdi_steep = State()
     adminka = State()
     capt = State()
+    editer = State()
+    editer_date = State()
+    time_edit = State()
 
 
 userr = []
@@ -50,7 +53,7 @@ ndt_users_dict = {1207474771: "Yo‘ldoshev Bobur",
                   }
 
 
-API_TOKEN = '6110396068:AAEcSVjeo_o3xbwDncJmFdqWqgb315i9r4w'
+API_TOKEN = '6110396068:AAGc-R6HmWfs7sdBqzwwxQ8JLennjkaQftk'
 
 
 
@@ -70,6 +73,60 @@ a = ['Habibullayev Axtam',
      "Tulaboyev Zafar",
      "Yo‘ldoshev Bobur",
      ]
+@dp.message_handler(commands='edit')
+async def edit_data(message: types.Message):
+    await message.answer("Foydalanuvchi user id raqamini yuboring")
+    await MyStates.editer.set()
+@dp.message_handler(state=MyStates.editer, content_types=types.ContentTypes.TEXT)
+async def ups(message: types.Message, state: FSMContext):
+    usr = message.text
+    if type(int(usr)) == type(5):
+        await message.answer(f"<b>Xodim</b>: {ndt_users_dict[int(usr)]}")
+        await message.answer("Qaysi Sana ma`lumotini o`zgartirmoqchisiz?")
+        await MyStates.editer_date.set()
+    else:
+        await message.answer("Iltimos To`g`ri formatda ma`lumot kiriting!")
+
+
+
+    @dp.message_handler(state=MyStates.editer_date, content_types=types.ContentTypes.TEXT)
+    async def upg(message: types.Message, state: FSMContext):
+        edit_my_date = message.text
+        await message.answer("Vaqtini kiriting!")
+        await MyStates.time_edit.set()
+        @dp.message_handler(state = MyStates.time_edit,content_types=types.ContentTypes.TEXT)
+        async def time_edit(message: types.Message,state: FSMContext):
+            op = message.text
+            wb_obj = openpyxl.load_workbook(path)
+            sheet_obj = wb_obj.active
+            max_col = sheet_obj.max_column
+            x = datetime.datetime.now()
+
+            o = 0
+            a = x.strftime("%d")
+            for jump in range(11):
+                for i in range(1, max_col + 1):
+                    cell_obj = sheet_obj.cell(row=jump + 1, column=i)
+                    developers_column.append(cell_obj.value)
+                # print(developers_column)
+                if developers_column[0] == ndt_users_dict[int(usr)]:
+                    developers_column[int(edit_my_date)+1] = op
+                    await message.answer("<b>Saqlandi</b>")
+                for k in range(33):
+                    ws[f'{SHETS[k]}{jump + 1}'] = developers_column[k]
+                    # print(developers_column[k])
+                developers_column.clear()
+            for saver in range(33):
+                ws.column_dimensions[f'{SHETS[saver]}'].width = 28
+            ws.column_dimensions[f'A'].width = 23
+            wb.save("monitoring.xlsx")
+            await state.finish()
+
+
+
+
+
+
 
 @dp.message_handler(commands='clearmonth')
 async def clear_data(message: types.Message):
@@ -100,7 +157,7 @@ async def clear_data(message: types.Message):
     for d in range(31):
         ws[f'{SHETS[d+2]}{1}'] = d + 1
 
-    wb.save("testing.xlsx")
+    wb.save("monitoring.xlsx")
     await message.answer("Ma`lumotlar tozalandi")
 
 @dp.message_handler(commands=['ndtusers'])
@@ -730,18 +787,25 @@ async def sharif(message: types.Message):
 
 @dp.message_handler(state=MyStates.ketdi_steep, content_types=types.ContentTypes.LOCATION)
 async def ups(message: types.Message, state: FSMContext):
-    # await message.forward(233029021, message.message_id, message.chat.id)
-    # await bot.send_message(233029021,
-    #                        f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
-    # # anvar akaga send qilish
-    # await bot.send_message(328628941,
-    #                        f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
-    # await message.forward(328628941, message.message_id, message.chat.id)
-    # # jasur akaga send qilish
-    # await message.forward(2111796525, message.message_id, message.chat.id)
-    # await bot.send_message(2111796525,
-    #                        f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
+    await message.forward(233029021, message.message_id, message.chat.id)
+    await bot.send_message(233029021,
+                           f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
+    # anvar akaga send qilish
+    await bot.send_message(328628941,
+                           f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
+    await message.forward(328628941, message.message_id, message.chat.id)
+    # jasur akaga send qilish
+    await message.forward(2111796525, message.message_id, message.chat.id)
+    await bot.send_message(2111796525,
+                           f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
     # sabinaga send qilish
+    await message.forward(5172746353, message.message_id, message.chat.id)
+    await bot.send_message(5172746353,
+                           f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
+    # Sharifjonga send qilish
+
+
+
     wb_obj = openpyxl.load_workbook(path)
     sheet_obj = wb_obj.active
     max_col = sheet_obj.max_column
@@ -758,7 +822,7 @@ async def ups(message: types.Message, state: FSMContext):
         if developers_column[0] == ndt_users_dict[message.from_user.id]:
             editer = developers_column[int(a)]
             # print(developers_column)
-            developers_column[int(a)] = f"""Keldi: {editer} Ketdi: {str(x.strftime("%X"))}"""
+            developers_column[int(a)+1] = f"""Keldi: {editer} Ketdi: {str(x.strftime("%X"))}"""
         for k in range(33):
             ws[f'{SHETS[k]}{jump + 1}'] = developers_column[k]
             # print(developers_column[k])
@@ -782,21 +846,25 @@ async def ups(message: types.Message, state: FSMContext):
     print("kirildi fsm ga")
     await message.answer("📍Manzilingiz Jo`natildi")
     await message.answer("<b>Ish vaqtini yakunlash!💫</b>", reply_markup=ketdi_xd)
-    # await bot.send_message(233029021,
-    #                        f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
-    # await message.forward(233029021, message.message_id, message.chat.id)
-    # #anvar akaga send qilish
-    #
-    #
-    # await bot.send_message(2111796525,
-    #                        f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
-    # await message.forward(2111796525, message.message_id, message.chat.id)
-    # #sabina opaga send qilish
-    #
-    # await bot.send_message(328628941,
-    #                        f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
-    # await message.forward(328628941, message.message_id, message.chat.id)
-    # #jasur aka ga send qilish
+    await bot.send_message(233029021,
+                           f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
+    await message.forward(233029021, message.message_id, message.chat.id)
+    # anvar akaga send qilish
+
+
+    await bot.send_message(2111796525,
+                           f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
+    await message.forward(2111796525, message.message_id, message.chat.id)
+    # sabina opaga send qilish
+
+    await bot.send_message(328628941,
+                           f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
+    await message.forward(328628941, message.message_id, message.chat.id)
+    #jasur aka ga send qilish
+    await bot.send_message(5172746353,
+                           f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
+    await message.forward(5172746353, message.message_id, message.chat.id)
+
     wb_obj = openpyxl.load_workbook(path)
     sheet_obj = wb_obj.active
     max_col = sheet_obj.max_column
@@ -810,7 +878,8 @@ async def ups(message: types.Message, state: FSMContext):
             developers_column.append(cell_obj.value)
         # print(developers_column)
         if developers_column[0] == ndt_users_dict[message.from_user.id]:
-            developers_column[int(a)] = str(x.strftime("%X"))
+            developers_column[int(a)+1] = str(x.strftime("%X"))
+            await message.answer("Saqlandi ma`lumot")
         for k in range(33):
             ws[f'{SHETS[k]}{jump + 1}'] = developers_column[k]
             # print(developers_column[k])
