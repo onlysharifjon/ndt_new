@@ -21,7 +21,7 @@ tzInfo = pytz.timezone('Asia/Tashkent')
 dt = datetime.datetime.now(tz=tzInfo)
 developers_column = []
 SHETS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-         'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF','AG']
+         'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG']
 path = "monitoring.xlsx"
 # admin ndt users
 ADMINSS = [5172746353, 328628941, 233029021]
@@ -51,11 +51,9 @@ ndt_users_dict = {1207474771: "Yo‘ldoshev Bobur",
                   1336680858: 'Maxmudova Durdona',
                   1755017200: 'Nazaraliyev Jahongir',
                   }
+workers_count = 11
 
-
-API_TOKEN = '6110396068:AAGc-R6HmWfs7sdBqzwwxQ8JLennjkaQftk'
-
-
+API_TOKEN = '5428656747:AAEshiMCzwMEgp_1paYprJn0hWDDLkT9yzo'
 
 XODIMLAR = [5172746353, 328628941, 1207474771, 233029021, 10414033, 2111796525, 520754113,
             524697244, 322626456, 1336680858, 1755017200]
@@ -73,10 +71,14 @@ a = ['Habibullayev Axtam',
      "Tulaboyev Zafar",
      "Yo‘ldoshev Bobur",
      ]
+
+
 @dp.message_handler(commands='edit')
 async def edit_data(message: types.Message):
     await message.answer("Foydalanuvchi user id raqamini yuboring")
     await MyStates.editer.set()
+
+
 @dp.message_handler(state=MyStates.editer, content_types=types.ContentTypes.TEXT)
 async def ups(message: types.Message, state: FSMContext):
     usr = message.text
@@ -87,15 +89,14 @@ async def ups(message: types.Message, state: FSMContext):
     else:
         await message.answer("Iltimos To`g`ri formatda ma`lumot kiriting!")
 
-
-
     @dp.message_handler(state=MyStates.editer_date, content_types=types.ContentTypes.TEXT)
     async def upg(message: types.Message, state: FSMContext):
         edit_my_date = message.text
         await message.answer("Vaqtini kiriting!")
         await MyStates.time_edit.set()
-        @dp.message_handler(state = MyStates.time_edit,content_types=types.ContentTypes.TEXT)
-        async def time_edit(message: types.Message,state: FSMContext):
+
+        @dp.message_handler(state=MyStates.time_edit, content_types=types.ContentTypes.TEXT)
+        async def time_edit(message: types.Message, state: FSMContext):
             op = message.text
             wb_obj = openpyxl.load_workbook(path)
             sheet_obj = wb_obj.active
@@ -104,13 +105,13 @@ async def ups(message: types.Message, state: FSMContext):
 
             o = 0
             a = x.strftime("%d")
-            for jump in range(11):
+            for jump in range(workers_count):
                 for i in range(1, max_col + 1):
                     cell_obj = sheet_obj.cell(row=jump + 1, column=i)
                     developers_column.append(cell_obj.value)
                 # print(developers_column)
                 if developers_column[0] == ndt_users_dict[int(usr)]:
-                    developers_column[int(edit_my_date)+1] = op
+                    developers_column[int(edit_my_date) + 1] = op
                     await message.answer("<b>Saqlandi</b>")
                 for k in range(33):
                     ws[f'{SHETS[k]}{jump + 1}'] = developers_column[k]
@@ -123,11 +124,6 @@ async def ups(message: types.Message, state: FSMContext):
             await state.finish()
 
 
-
-
-
-
-
 @dp.message_handler(commands='clearmonth')
 async def clear_data(message: types.Message):
     wb_obj = openpyxl.load_workbook(path)
@@ -138,16 +134,16 @@ async def clear_data(message: types.Message):
         ws.column_dimensions[f'{SHETS[saver]}'].width = 28
     ws.column_dimensions[f'A'].width = 23
     a = x.strftime("%d")
-    for jump in range(11):
+    for jump in range(workers_count):
         for i in range(1, max_col + 1):
             cell_obj = sheet_obj.cell(row=jump + 1, column=i)
             developers_column.append(cell_obj.value)
         # print(developers_column)
         print(developers_column)
         for k in range(33):
-            if jump  == 1:
+            if jump == 1:
                 ws[f'{SHETS[k]}{jump + 1}'] = developers_column[k]
-            elif k<=2 and jump != 1:
+            elif k <= 2 and jump != 1:
                 ws[f'{SHETS[k]}{jump + 1}'] = developers_column[k]
             else:
                 ws[f'{SHETS[k]}{jump + 1}'] = "."
@@ -155,10 +151,11 @@ async def clear_data(message: types.Message):
             # print(developers_column[k])
         developers_column.clear()
     for d in range(31):
-        ws[f'{SHETS[d+2]}{1}'] = d + 1
+        ws[f'{SHETS[d + 2]}{1}'] = d + 1
 
     wb.save("monitoring.xlsx")
     await message.answer("Ma`lumotlar tozalandi")
+
 
 @dp.message_handler(commands=['ndtusers'])
 async def send_welcome11(message: types.Message):
@@ -239,6 +236,8 @@ async def infos_all(message: types.Message):
 
     else:
         await message.answer("Sizda admin xuquqi mavjud emas!")
+
+
 @dp.callback_query_handler(text=["sharif"])
 async def answer2(call: CallbackQuery):
     wb_obj = openpyxl.load_workbook(path)
@@ -249,7 +248,7 @@ async def answer2(call: CallbackQuery):
     o = 0
     a = x.strftime("%d")
     text = ""
-    for jump in range(11):
+    for jump in range(workers_count):
         for i in range(1, max_col + 1):
             cell_obj = sheet_obj.cell(row=jump + 1, column=i)
             developers_column.append(cell_obj.value)
@@ -299,7 +298,7 @@ async def answer2(call: CallbackQuery):
     o = 0
     a = x.strftime("%d")
     text = ""
-    for jump in range(11):
+    for jump in range(workers_count):
         for i in range(1, max_col + 1):
             cell_obj = sheet_obj.cell(row=jump + 1, column=i)
             developers_column.append(cell_obj.value)
@@ -350,7 +349,7 @@ async def answer2(call: CallbackQuery):
     o = 0
     a = x.strftime("%d")
     text = ""
-    for jump in range(11):
+    for jump in range(workers_count):
         for i in range(1, max_col + 1):
             cell_obj = sheet_obj.cell(row=jump + 1, column=i)
             developers_column.append(cell_obj.value)
@@ -399,7 +398,7 @@ async def answer2(call: CallbackQuery):
     o = 0
     a = x.strftime("%d")
     text = ""
-    for jump in range(11):
+    for jump in range(workers_count):
         for i in range(1, max_col + 1):
             cell_obj = sheet_obj.cell(row=jump + 1, column=i)
             developers_column.append(cell_obj.value)
@@ -448,7 +447,7 @@ async def answer2(call: CallbackQuery):
     o = 0
     a = x.strftime("%d")
     text = ""
-    for jump in range(11):
+    for jump in range(workers_count):
         for i in range(1, max_col + 1):
             cell_obj = sheet_obj.cell(row=jump + 1, column=i)
             developers_column.append(cell_obj.value)
@@ -496,7 +495,7 @@ async def answer2(call: CallbackQuery):
     o = 0
     a = x.strftime("%d")
     text = ""
-    for jump in range(11):
+    for jump in range(workers_count):
         for i in range(1, max_col + 1):
             cell_obj = sheet_obj.cell(row=jump + 1, column=i)
             developers_column.append(cell_obj.value)
@@ -545,7 +544,7 @@ async def answer2(call: CallbackQuery):
     o = 0
     a = x.strftime("%d")
     text = ""
-    for jump in range(11):
+    for jump in range(workers_count):
         for i in range(1, max_col + 1):
             cell_obj = sheet_obj.cell(row=jump + 1, column=i)
             developers_column.append(cell_obj.value)
@@ -594,7 +593,7 @@ async def answer2(call: CallbackQuery):
     o = 0
     a = x.strftime("%d")
     text = ""
-    for jump in range(11):
+    for jump in range(workers_count):
         for i in range(1, max_col + 1):
             cell_obj = sheet_obj.cell(row=jump + 1, column=i)
             developers_column.append(cell_obj.value)
@@ -643,7 +642,7 @@ async def answer2(call: CallbackQuery):
     o = 0
     a = x.strftime("%d")
     text = ""
-    for jump in range(11):
+    for jump in range(workers_count):
         for i in range(1, max_col + 1):
             cell_obj = sheet_obj.cell(row=jump + 1, column=i)
             developers_column.append(cell_obj.value)
@@ -694,7 +693,7 @@ async def answer2(call: CallbackQuery):
     a = x.strftime("%d")
     text = ""
 
-    for jump in range(11):
+    for jump in range(workers_count):
         for i in range(1, max_col + 1):
             cell_obj = sheet_obj.cell(row=jump + 1, column=i)
             developers_column.append(cell_obj.value)
@@ -804,8 +803,6 @@ async def ups(message: types.Message, state: FSMContext):
                            f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
     # Sharifjonga send qilish
 
-
-
     wb_obj = openpyxl.load_workbook(path)
     sheet_obj = wb_obj.active
     max_col = sheet_obj.max_column
@@ -814,7 +811,7 @@ async def ups(message: types.Message, state: FSMContext):
         ws.column_dimensions[f'{SHETS[saver]}'].width = 28
     ws.column_dimensions[f'A'].width = 23
     a = x.strftime("%d")
-    for jump in range(11):
+    for jump in range(workers_count):
         for i in range(1, max_col + 1):
             cell_obj = sheet_obj.cell(row=jump + 1, column=i)
             developers_column.append(cell_obj.value)
@@ -822,7 +819,7 @@ async def ups(message: types.Message, state: FSMContext):
         if developers_column[0] == ndt_users_dict[message.from_user.id]:
             editer = developers_column[int(a)]
             # print(developers_column)
-            developers_column[int(a)+1] = f"""Keldi: {editer} Ketdi: {str(x.strftime("%X"))}"""
+            developers_column[int(a) + 1] = f"""Keldi: {editer} Ketdi: {str(x.strftime("%X"))}"""
         for k in range(33):
             ws[f'{SHETS[k]}{jump + 1}'] = developers_column[k]
             # print(developers_column[k])
@@ -851,7 +848,6 @@ async def ups(message: types.Message, state: FSMContext):
     await message.forward(233029021, message.message_id, message.chat.id)
     # anvar akaga send qilish
 
-
     await bot.send_message(2111796525,
                            f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
     await message.forward(2111796525, message.message_id, message.chat.id)
@@ -860,7 +856,7 @@ async def ups(message: types.Message, state: FSMContext):
     await bot.send_message(328628941,
                            f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
     await message.forward(328628941, message.message_id, message.chat.id)
-    #jasur aka ga send qilish
+    # jasur aka ga send qilish
     await bot.send_message(5172746353,
                            f"🏢<b> ISHGA KELDI</b>\n💼<b>Xodim</b>: {ndt_users_dict[message.from_user.id]}\n\n🕰<b>Vaqt</b>: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}\n📍Manzil: 👇")
     await message.forward(5172746353, message.message_id, message.chat.id)
@@ -872,13 +868,13 @@ async def ups(message: types.Message, state: FSMContext):
 
     o = 0
     a = x.strftime("%d")
-    for jump in range(11):
+    for jump in range(workers_count):
         for i in range(1, max_col + 1):
             cell_obj = sheet_obj.cell(row=jump + 1, column=i)
             developers_column.append(cell_obj.value)
         # print(developers_column)
         if developers_column[0] == ndt_users_dict[message.from_user.id]:
-            developers_column[int(a)+1] = str(x.strftime("%X"))
+            developers_column[int(a) + 1] = str(x.strftime("%X"))
             await message.answer("Saqlandi ma`lumot")
         for k in range(33):
             ws[f'{SHETS[k]}{jump + 1}'] = developers_column[k]
