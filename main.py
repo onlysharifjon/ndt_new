@@ -53,7 +53,7 @@ ndt_users_dict = {1207474771: "Yo‘ldoshev Bobur",
                   }
 workers_count = 11
 
-API_TOKEN = '5428656747:AAFwHwyrdUrozt6Tod14gyVA2nxKdUfpu7w'
+API_TOKEN = '5428656747:AAGlFC_NKgTP-NS4Ao1hgYAY9i4TMqciwkQ'
 
 XODIMLAR = [5172746353, 328628941, 1207474771, 233029021, 10414033, 2111796525, 520754113,
             524697244, 322626456, 1336680858, 1755017200]
@@ -786,6 +786,7 @@ async def sharif(message: types.Message):
 
 @dp.message_handler(state=MyStates.ketdi_steep, content_types=types.ContentTypes.LOCATION)
 async def ups(message: types.Message, state: FSMContext):
+    print("Ketdiga kirdi")
     await message.forward(233029021, message.message_id, message.chat.id)
     await bot.send_message(233029021,
                            f"🏘<b>Ish vaqti yakunladi !</b>\n💼Xodim: {ndt_users_dict[message.from_user.id]}\n\n🕰Vaqt: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}-{str(datetime.datetime.now().strftime('%x'))}")
@@ -817,7 +818,7 @@ async def ups(message: types.Message, state: FSMContext):
             developers_column.append(cell_obj.value)
         # print(developers_column)
         if developers_column[0] == ndt_users_dict[message.from_user.id]:
-            editer = developers_column[int(a)]
+            editer = developers_column[int(a)+1]
             # print(developers_column)
             developers_column[int(a) + 1] = f"""Keldi: {editer} Ketdi: {str(x.strftime("%X"))}"""
         for k in range(33):
@@ -828,7 +829,9 @@ async def ups(message: types.Message, state: FSMContext):
     await message.answer("Xayr 👋")
     await message.answer("Yangi ish kuniga kech qolmasdan keling 😊")
     await message.answer("Yangi ish kunini Boshlash !", reply_markup=keldi_xd)
+    print(f"Ketdi {ndt_users_dict[message.from_user.id]}")
     await state.finish()
+
 
 
 @dp.message_handler(text="KELDI 🏢")
@@ -840,7 +843,7 @@ async def qoshish(message: types.Message):
 
 @dp.message_handler(state=MyStates.next_step, content_types=types.ContentTypes.LOCATION)
 async def ups(message: types.Message, state: FSMContext):
-    print("kirildi fsm ga")
+    print("kirildi keldiga ga")
     await message.answer("📍Manzilingiz Jo`natildi")
     await message.answer("<b>Ish vaqtini yakunlash!💫</b>", reply_markup=ketdi_xd)
     await bot.send_message(233029021,
@@ -876,7 +879,7 @@ async def ups(message: types.Message, state: FSMContext):
         if developers_column[0] == ndt_users_dict[message.from_user.id]:
             developers_column[int(a) + 1] = str(x.strftime("%X"))
             await message.answer("Saqlandi ma`lumot")
-        for k in range(33):
+        for k in range(len(developers_column)):
             ws[f'{SHETS[k]}{jump + 1}'] = developers_column[k]
             # print(developers_column[k])
         developers_column.clear()
@@ -884,7 +887,9 @@ async def ups(message: types.Message, state: FSMContext):
         ws.column_dimensions[f'{SHETS[saver]}'].width = 28
     ws.column_dimensions[f'A'].width = 23
     wb.save("monitoring.xlsx")
+    print(f"Ketdi {ndt_users_dict[message.from_user.id]}")
     await state.finish()
+
 
 
 @dp.message_handler(commands='oy_malumotlari')
