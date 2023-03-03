@@ -11,7 +11,7 @@ import datetime
 import pytz
 import openpyxl
 from openpyxl import Workbook
-
+edn = 22
 wb = Workbook()
 ws = wb.active
 # corporation name
