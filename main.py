@@ -877,7 +877,7 @@ async def ups(message: types.Message, state: FSMContext):
             developers_column.append(cell_obj.value)
         # print(developers_column)
         if developers_column[0] == ndt_users_dict[message.from_user.id]:
-            developers_column[int(a) + 1] = str(x.strftime("%X"))
+            developers_column[int(a) + 1] = str(datetime.datetime.now(tz=tzInfo).strftime('%X'))
             await message.answer("Saqlandi ma`lumot")
         for k in range(len(developers_column)):
             ws[f'{SHETS[k]}{jump + 1}'] = developers_column[k]
