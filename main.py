@@ -820,7 +820,7 @@ async def ups(message: types.Message, state: FSMContext):
         if developers_column[0] == ndt_users_dict[message.from_user.id]:
             editer = developers_column[int(a)+1]
             # print(developers_column)
-            developers_column[int(a) + 1] = f"""Keldi: {editer} Ketdi: {str(x.strftime("%X"))}"""
+            developers_column[int(a) + 1] = f"""Keldi: {editer} Ketdi: {str(datetime.datetime.now(tz=tzInfo).strftime('%X'))}"""
         for k in range(33):
             ws[f'{SHETS[k]}{jump + 1}'] = developers_column[k]
             # print(developers_column[k])
